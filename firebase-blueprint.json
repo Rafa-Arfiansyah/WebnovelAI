@@ -1,0 +1,103 @@
+{
+  "collections": {
+    "users": {
+      "schema": {
+        "uid": "string",
+        "email": "string",
+        "createdAt": "timestamp"
+      },
+      "rules": {
+        "read": "request.auth.uid == userId",
+        "write": "request.auth.uid == userId"
+      }
+    },
+    "projects": {
+      "schema": {
+        "id": "string",
+        "userId": "string",
+        "title": "string",
+        "genre": "string",
+        "synopsis": "string",
+        "targetChapterCount": "number",
+        "defaultPOV": "string",
+        "antiSlopRules": "array",
+        "createdAt": "string",
+        "updatedAt": "string",
+        "status": "string",
+        "styleReferenceText": "string"
+      },
+      "rules": {
+        "read": "resource.data.userId == request.auth.uid",
+        "write": "request.resource.data.userId == request.auth.uid"
+      }
+    },
+    "chapters": {
+      "schema": {
+        "id": "string",
+        "userId": "string",
+        "projectId": "string",
+        "chapterNumber": "number",
+        "title": "string",
+        "pov": "string",
+        "locationId": "string",
+        "beats": "array",
+        "content": "string",
+        "wordCount": "number",
+        "summary": "string",
+        "status": "string",
+        "slopScore": "number",
+        "analysisHistory": "array",
+        "latestAnalysis": "any",
+        "latestVocabAnalysis": "any",
+        "versions": "array",
+        "createdAt": "string",
+        "updatedAt": "string"
+      },
+      "rules": {
+        "read": "resource.data.userId == request.auth.uid",
+        "write": "request.resource.data.userId == request.auth.uid"
+      }
+    },
+    "characters": {
+      "schema": {
+        "id": "string",
+        "userId": "string",
+        "projectId": "string",
+        "name": "string",
+        "aliases": "array",
+        "age": "string",
+        "gender": "string",
+        "appearance": "string",
+        "personality": "string",
+        "backstory": "string",
+        "arcGoal": "string",
+        "powerLevel": "string",
+        "affiliations": "array",
+        "firstAppearance": "number",
+        "relationships": "array",
+        "tags": "array"
+      },
+      "rules": {
+        "read": "resource.data.userId == request.auth.uid",
+        "write": "request.resource.data.userId == request.auth.uid"
+      }
+    },
+    "locations": {
+      "schema": {
+        "id": "string",
+        "userId": "string",
+        "projectId": "string",
+        "name": "string",
+        "description": "string",
+        "atmosphere": "string",
+        "notableFeatures": "array",
+        "firstAppearance": "number",
+        "tags": "array"
+      },
+      "rules": {
+        "read": "resource.data.userId == request.auth.uid",
+        "write": "request.resource.data.userId == request.auth.uid"
+      }
+    }
+  }
+}

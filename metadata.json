@@ -1,0 +1,6 @@
+{
+  "name": "NovelForge AI",
+  "description": "An AI-powered webnovel writing and production suite with outline planning, world bible management, streaming content generation, and an active anti-slop content analyzer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
