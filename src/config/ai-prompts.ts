@@ -215,6 +215,51 @@ PRE-WRITE CHECKLIST (run before every paragraph):
 // CHAPTER GENERATION PROMPT
 // FIX: GEMINI_HARD_STOPS now included at top of prompt.
 // ─────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// COMPLIANCE ENFORCER BLOCK
+// Injected into EVERY generation system prompt.
+// Reinforces rules mid-generation by framing them as self-verification steps.
+// ─────────────────────────────────────────────
+export const COMPLIANCE_ENFORCER = `
+════════════════════════════════════════════════════════
+SELF-VERIFICATION PROTOCOL — RUN BEFORE EVERY PARAGRAPH
+════════════════════════════════════════════════════════
+Before writing each paragraph, mentally verify:
+  1. Am I about to open with weather, atmosphere, or landscape? → STOP. Start with action or dialogue.
+  2. Am I about to write "wasn't just X" or "bukan sekadar X"? → STOP. Write the direct statement.
+  3. Am I about to write 3+ separate single-action sentences? → MERGE into one flowing sentence.
+  4. Am I about to use any banned word (palpable, piercing, shimmered, flickered, heart hammered, eyes widened, ozone)? → REPLACE with specific physical detail.
+  5. Am I about to describe a background prop with an adjective? → REMOVE the adjective.
+  6. Am I about to let the protagonist win cleanly with no cost? → ADD a physical cost or immediate new problem.
+  7. Am I padding with atmosphere or scenery to hit word count? → EXPAND dialogue or internal monologue instead.
+
+Failure on any of these = the paragraph must be rewritten before continuing.
+════════════════════════════════════════════════════════`;
+
+// ─────────────────────────────────────────────
+// BEAT EXPANSION ENFORCER
+// Injected into chapter generation to prevent beat-skipping.
+// ─────────────────────────────────────────────
+export const BEAT_EXPANSION_ENFORCER = `
+════════════════════════════════════════════════════════
+BEAT EXECUTION RULES — MANDATORY
+════════════════════════════════════════════════════════
+Each beat in the outline is a REQUIRED scene. Do not summarize, skip, or compress any beat.
+
+For every CLIMAX or POWER-USE beat, you MUST include ONE of:
+  A. Physical cost — gear damaged, injury, resource depleted, power backfires
+  B. Wrong first instinct — character tries something, it fails, then pivots
+  C. Unresolved problem — new threat emerges DURING or immediately AFTER the win
+
+❌ FORBIDDEN: Protagonist activates power → works perfectly → walks away composed.
+✅ REQUIRED: Something goes wrong, costs something, or a new problem surfaces immediately.
+
+The protagonist must have at least ONE moment per chapter where they:
+  - Miscalculate or get something wrong
+  - Lose something (gear, health, resource, information)
+  - React with confusion or genuine fear before regaining composure
+════════════════════════════════════════════════════════`;
+
 interface ChapterPromptParams {
   chapter: Chapter;
   characters: Character[];
@@ -296,28 +341,19 @@ POV: ${chapter.pov}
 Tone Preset: [${toneAdjustment}]
 
 ════════════════════════════════════════════════════════
-STEP 1 — READ THESE RULES BEFORE WRITING ANYTHING
-════════════════════════════════════════════════════════
-${GEMINI_HARD_STOPS}
-
-${BASE_PROSE_RULES}
-${customRulesStr}
-${mimicStr}
-
-════════════════════════════════════════════════════════
-STEP 2 — WORLD BIBLE & STORY CONTEXT
+STEP 1 — WORLD BIBLE & STORY CONTEXT (REFERENCE ONLY)
 ════════════════════════════════════════════════════════
 PROJECT SYNOPSIS:
 ${synopsis || "No synopsis configured."}
 
-FULL CAST INDEX (Maintain strict names/roles; do NOT invent characters outside this list unless necessary):
+FULL CAST INDEX (For name & role consistency; do NOT invent characters outside this list):
 ${bibleCastStr}
 
-FULL LOCATIONS INDEX (Maintain setting/geography consistency; do NOT invent locations outside this list unless necessary):
+FULL LOCATIONS INDEX (For setting & geography consistency; do NOT invent locations outside this list):
 ${bibleLocationsStr}
 
 ════════════════════════════════════════════════════════
-STEP 3 — CHAPTER-SPECIFIC CONTEXT
+STEP 2 — CHAPTER-SPECIFIC CONTEXT
 ════════════════════════════════════════════════════════
 PLOT BEATS (write every beat fully — no skipping, no summarizing):
 ${beatsStr}
@@ -333,6 +369,21 @@ ${historyStr}
 
 WRITER MEMO:
 ${customInst || "Write with focused visual logic and dry tactical dialogue."}
+
+════════════════════════════════════════════════════════
+STEP 3 — MANDATORY PROSE RULES, HARD STOPS, & ENFORCERS
+════════════════════════════════════════════════════════
+You MUST strictly follow these rules. Violating any of these makes the output invalid.
+
+${GEMINI_HARD_STOPS}
+
+${BASE_PROSE_RULES}
+
+${COMPLIANCE_ENFORCER}
+
+${BEAT_EXPANSION_ENFORCER}
+${customRulesStr}
+${mimicStr}
 
 ════════════════════════════════════════════════════════
 STEP 4 — SELF-CHECK BEFORE FIRST WORD
@@ -396,6 +447,11 @@ READ THESE RULES FULLY BEFORE WRITING A SINGLE WORD
 ${GEMINI_HARD_STOPS}
 
 ${BASE_PROSE_RULES}
+
+${COMPLIANCE_ENFORCER}
+
+${BEAT_EXPANSION_ENFORCER}
+
 ${customProjectRulesStr}
 ${mimicStyleInstruction}
 

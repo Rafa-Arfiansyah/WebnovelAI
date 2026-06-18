@@ -18,6 +18,8 @@ import {
 import {
   GEMINI_HARD_STOPS,
   BASE_PROSE_RULES,
+  COMPLIANCE_ENFORCER,
+  BEAT_EXPANSION_ENFORCER,
   buildSlopAnalysisPrompt,
   buildVocabAnalysisPrompt,
   buildPolishPassagePrompt,
@@ -62,50 +64,7 @@ interface GenerateContentParams {
   config?: any;
 }
 
-// ─────────────────────────────────────────────
-// COMPLIANCE ENFORCER BLOCK
-// Injected into EVERY generation system prompt.
-// Reinforces rules mid-generation by framing them as self-verification steps.
-// ─────────────────────────────────────────────
-const COMPLIANCE_ENFORCER = `
-════════════════════════════════════════════════════════
-SELF-VERIFICATION PROTOCOL — RUN BEFORE EVERY PARAGRAPH
-════════════════════════════════════════════════════════
-Before writing each paragraph, mentally verify:
-  1. Am I about to open with weather, atmosphere, or landscape? → STOP. Start with action or dialogue.
-  2. Am I about to write "wasn't just X" or "bukan sekadar X"? → STOP. Write the direct statement.
-  3. Am I about to write 3+ separate single-action sentences? → MERGE into one flowing sentence.
-  4. Am I about to use any banned word (palpable, piercing, shimmered, flickered, heart hammered, eyes widened, ozone)? → REPLACE with specific physical detail.
-  5. Am I about to describe a background prop with an adjective? → REMOVE the adjective.
-  6. Am I about to let the protagonist win cleanly with no cost? → ADD a physical cost or immediate new problem.
-  7. Am I padding with atmosphere or scenery to hit word count? → EXPAND dialogue or internal monologue instead.
 
-Failure on any of these = the paragraph must be rewritten before continuing.
-════════════════════════════════════════════════════════`;
-
-// ─────────────────────────────────────────────
-// BEAT EXPANSION ENFORCER
-// Injected into chapter generation to prevent beat-skipping.
-// ─────────────────────────────────────────────
-const BEAT_EXPANSION_ENFORCER = `
-════════════════════════════════════════════════════════
-BEAT EXECUTION RULES — MANDATORY
-════════════════════════════════════════════════════════
-Each beat in the outline is a REQUIRED scene. Do not summarize, skip, or compress any beat.
-
-For every CLIMAX or POWER-USE beat, you MUST include ONE of:
-  A. Physical cost — gear damaged, injury, resource depleted, power backfires
-  B. Wrong first instinct — character tries something, it fails, then pivots
-  C. Unresolved problem — new threat emerges DURING or immediately AFTER the win
-
-❌ FORBIDDEN: Protagonist activates power → works perfectly → walks away composed.
-✅ REQUIRED: Something goes wrong, costs something, or a new problem surfaces immediately.
-
-The protagonist must have at least ONE moment per chapter where they:
-  - Miscalculate or get something wrong
-  - Lose something (gear, health, resource, information)
-  - React with confusion or genuine fear before regaining composure
-════════════════════════════════════════════════════════`;
 
 async function generateContentWithFallback(ai: any, params: GenerateContentParams) {
   const originalModel = params.model || "gemini-3.5-flash";
@@ -271,7 +230,9 @@ ${COMPLIANCE_ENFORCER}
 ${BEAT_EXPANSION_ENFORCER}`;
 
     const activeSystemInstruction = systemInstruction
-      ? `${GEMINI_HARD_STOPS}\n\n${systemInstruction}\n\n${COMPLIANCE_ENFORCER}\n\n${BEAT_EXPANSION_ENFORCER}`
+      ? (systemInstruction.includes("SELF-VERIFICATION PROTOCOL")
+          ? systemInstruction
+          : `${GEMINI_HARD_STOPS}\n\n${systemInstruction}\n\n${COMPLIANCE_ENFORCER}\n\n${BEAT_EXPANSION_ENFORCER}`)
       : coreInstructions;
 
     const streamResponse = await generateContentStreamWithFallback(ai, {
