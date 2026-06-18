@@ -7,6 +7,7 @@ interface SettingsPanelProps {
   activeProject: Project | null;
   chapters: Chapter[];
   onRefreshProject: () => void;
+  onApiKeyChange?: () => void;
 }
 
 const ELITE_PRESETS = [
@@ -87,7 +88,8 @@ const ELITE_PRESETS = [
 export default function SettingsPanel({
   activeProject,
   chapters,
-  onRefreshProject
+  onRefreshProject,
+  onApiKeyChange
 }: SettingsPanelProps) {
   const [hasApiKey, setHasApiKey] = useState(false);
   const [hasServerKey, setHasServerKey] = useState(false);
@@ -138,6 +140,7 @@ export default function SettingsPanel({
       localStorage.setItem("novelforge_custom_gemini_key", trimmed);
       alert("Custom Gemini API Key saved locally in your browser. Writing & audit engines updated!");
       triggerHealthCheck();
+      onApiKeyChange?.();
     }
   };
 
@@ -146,6 +149,7 @@ export default function SettingsPanel({
     setCustomKeyInput("");
     alert("Custom override key cleared! Reverting to system default server configuration.");
     triggerHealthCheck();
+    onApiKeyChange?.();
   };
 
   // Update or append custom writing rules
@@ -287,7 +291,7 @@ export default function SettingsPanel({
               <h3 className="font-extrabold text-[#00FF88] text-xs uppercase tracking-wider font-mono">System Engine Diagnostics</h3>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold font-mono uppercase tracking-wider text-white/40">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-semibold font-mono uppercase tracking-wider text-white/40">
               <div className="bg-[#0A0A0A] p-3 rounded-lg flex flex-col justify-between border border-white/5">
                 <span>Gemini API Status:</span>
                 <span className={`text-[11px] font-black uppercase mt-1 ${hasApiKey ? "text-[#00FF88]" : "text-rose-400"}`}>
@@ -298,6 +302,12 @@ export default function SettingsPanel({
                 <span>Operational Mode:</span>
                 <span className="text-[11px] font-black text-[#00FF88] mt-1 font-mono tracking-tight">
                   {isOverrideActive ? "Browser Override" : hasServerKey ? "Direct Server Key" : "No Auth Creds"}
+                </span>
+              </div>
+              <div className="bg-[#0A0A0A] p-3 rounded-lg flex flex-col justify-between border border-white/5">
+                <span>Server Health:</span>
+                <span className={`text-[11px] font-black uppercase mt-1 ${healthStatus.includes("Operational") ? "text-[#00FF88]" : "text-rose-400"}`}>
+                  {healthStatus}
                 </span>
               </div>
             </div>

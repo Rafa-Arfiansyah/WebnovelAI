@@ -69,10 +69,7 @@ export default function App() {
     }
   }, [isLightMode]);
 
-  useEffect(() => {
-    refreshAllData();
-
-    // Verify server credentials status
+  const checkApiKeyStatus = () => {
     fetch("/api/health", {
       headers: {
         "x-custom-gemini-key": localStorage.getItem("novelforge_custom_gemini_key") || ""
@@ -85,6 +82,11 @@ export default function App() {
       .catch(() => {
         setHasApiKey(false);
       });
+  };
+
+  useEffect(() => {
+    refreshAllData();
+    checkApiKeyStatus();
   }, []);
 
   const refreshAllData = () => {
@@ -459,6 +461,7 @@ export default function App() {
               activeProject={activeProject}
               chapters={chapters}
               onRefreshProject={refreshAllData}
+              onApiKeyChange={checkApiKeyStatus}
             />
           )}
         </section>
