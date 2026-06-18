@@ -116,7 +116,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen bg-[#050505] text-[#E0E0E0] font-sans overflow-hidden relative" id="suite-app-root">
+    <div className="flex h-full bg-[#050505] text-[#E0E0E0] font-sans overflow-hidden relative" id="suite-app-root">
       
       {/* Background Graphic Decor */}
       <div className="absolute top-[-100px] left-[-100px] w-[500px] h-[500px] bg-[#00FF88] opacity-5 blur-[120px] rounded-full pointer-events-none z-0"></div>
@@ -132,7 +132,7 @@ export default function App() {
       )}
 
       {/* 1. Left Navigation Menu Rail */}
-      <aside className={`fixed lg:static inset-y-0 left-0 w-64 bg-[#0A0A0A]/95 lg:bg-[#0A0A0A]/90 backdrop-blur-md border-r border-white/10 p-5 flex flex-col justify-between text-white select-none z-40 transition-transform duration-300 ${
+      <aside className={`fixed lg:static inset-y-0 left-0 w-60 bg-[#0A0A0A]/95 lg:bg-[#0A0A0A]/90 backdrop-blur-md border-r border-white/10 p-4.5 flex flex-col justify-between text-white select-none z-40 transition-transform duration-300 ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       }`} id="suite-sidebar">
         <div className="space-y-6">
@@ -161,7 +161,7 @@ export default function App() {
                 setActiveModule("dashboard");
                 setIsSidebarOpen(false);
               }}
-              className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
+              className={`w-full py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
                 activeModule === "dashboard" 
                   ? "bg-[#00FF88] text-black shadow-[0_0_15px_rgba(0,255,136,0.3)] font-black" 
                   : "text-white/60 hover:bg-white/5 hover:text-[#00FF88]"
@@ -179,7 +179,7 @@ export default function App() {
                 }
               }}
               disabled={!selectedProjectId}
-              className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
+              className={`w-full py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
                 !selectedProjectId ? "opacity-35 cursor-not-allowed" : ""
               } ${
                 activeModule === "planner" 
@@ -199,7 +199,7 @@ export default function App() {
                 }
               }}
               disabled={!selectedProjectId}
-              className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
+              className={`w-full py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
                 !selectedProjectId ? "opacity-35 cursor-not-allowed" : ""
               } ${
                 activeModule === "bible" 
@@ -219,7 +219,7 @@ export default function App() {
                 }
               }}
               disabled={!selectedProjectId}
-              className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
+              className={`w-full py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
                 !selectedProjectId ? "opacity-35 cursor-not-allowed" : ""
               } ${
                 activeModule === "generator" 
@@ -239,7 +239,7 @@ export default function App() {
                 }
               }}
               disabled={!selectedProjectId}
-              className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
+              className={`w-full py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
                 !selectedProjectId ? "opacity-35 cursor-not-allowed" : ""
               } ${
                 activeModule === "editor" 
@@ -259,7 +259,7 @@ export default function App() {
                 }
               }}
               disabled={!selectedProjectId}
-              className={`w-full py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
+              className={`w-full py-2 px-3 rounded-lg text-xs font-bold uppercase tracking-tight flex items-center gap-3 transition-all duration-300 cursor-pointer ${
                 !selectedProjectId ? "opacity-35 cursor-not-allowed" : ""
               } ${
                 activeModule === "settings" 
@@ -298,7 +298,7 @@ export default function App() {
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
         
         {/* Global Toolbar Header */}
-        <header className="bg-[#0A0A0A]/50 backdrop-blur-md border-b border-white/10 h-16 shrink-0 flex items-center justify-between px-4 sm:px-6 z-15 select-none animate-in fade-in duration-200">
+        <header className="bg-[#0A0A0A]/50 backdrop-blur-md border-b border-white/10 h-14 shrink-0 flex items-center justify-between px-4 sm:px-6 z-15 select-none animate-in fade-in duration-200">
           <div className="flex gap-2 sm:gap-4 items-center flex-wrap min-w-0">
             {/* Hamburger button for small screens */}
             <button

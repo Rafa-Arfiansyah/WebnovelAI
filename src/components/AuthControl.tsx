@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -51,23 +52,8 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
     setSyncing(true);
     setSyncStatus("idle");
     try {
-      // 1. Fetch from Firestore
-      const cloudData = await firebaseStore.syncAllFromCloud(userId);
-      
-      // 2. If Firestore has NO projects, but they have local storage projects, 
-      // automatically back them up to Firestore so they don't lose any work!
-      const currentProjects = cloudData.projects || [];
-      if (currentProjects.length === 0) {
-        const localProjectsStr = localStorage.getItem("novelforge_projects");
-        const hasLocalData = localProjectsStr && JSON.parse(localProjectsStr).length > 0;
-        
-        if (hasLocalData) {
-          console.log("No cloud projects found, backing up local drafts to Firestore...");
-          await firebaseStore.uploadLocalToCloud(userId);
-          // Sync again to make sure everything matches cleanly:
-          await firebaseStore.syncAllFromCloud(userId);
-        }
-      }
+      // 1. Bi-directionally sync local and cloud data
+      await firebaseStore.syncAllFromCloud(userId);
 
       // 3. Trigger parent to refresh state
       onRefreshAllData();
@@ -206,7 +192,7 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
       )}
 
       {/* Auth Form Modal Overlay */}
-      {isModalOpen && (
+      {isModalOpen && createPortal(
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in zoom-in-95 duration-200" id="auth-modal-dialog">
           <div className="bg-[#0D0D0D] border border-white/15 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl shadow-[#00FF88]/5 flex flex-col">
             
@@ -341,7 +327,8 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
             </div>
 
           </div>
-        </div>
+        </div>,
+        document.getElementById("root") || document.body
       )}
     </div>
   );

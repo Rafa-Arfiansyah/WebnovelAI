@@ -178,10 +178,10 @@ export default function WorldBible({
   const selectedLoc = locations.find(l => l.id === selectedLocId);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" id="bible-root">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4" id="bible-root">
       
       {/* Sidebar with Character or Location Lists */}
-      <div className="lg:col-span-4 space-y-4">
+      <div className="lg:col-span-4 space-y-3">
         {/* Toggle bar tabs */}
         <div className="border border-white/15 bg-[#0A0A0A] p-1 rounded-xl flex gap-1 shadow-inner justify-start">
           <button
@@ -190,7 +190,7 @@ export default function WorldBible({
               setSelectedCharId(null);
               setSelectedLocId(null);
             }}
-            className={`w-full py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1.5 transition duration-200 cursor-pointer border-0 ${
+            className={`w-full py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1.5 transition duration-200 cursor-pointer border-0 ${
               activeTab === "premise" ? "bg-[#00FF88] text-black shadow-[0_0_12px_rgba(0,255,136,0.3)]" : "text-white/40 hover:text-white"
             }`}
           >
@@ -204,7 +204,7 @@ export default function WorldBible({
               setSelectedCharId(null);
               setSelectedLocId(null);
             }}
-            className={`w-full py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1.5 transition duration-200 cursor-pointer border-0 ${
+            className={`w-full py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1.5 transition duration-200 cursor-pointer border-0 ${
               activeTab === "characters" ? "bg-[#00FF88] text-black shadow-[0_0_12px_rgba(0,255,136,0.3)]" : "text-white/40 hover:text-white"
             }`}
           >
@@ -218,7 +218,7 @@ export default function WorldBible({
               setSelectedCharId(null);
               setSelectedLocId(null);
             }}
-            className={`w-full py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1.5 transition duration-200 cursor-pointer border-0 ${
+            className={`w-full py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider flex items-center justify-center gap-1.5 transition duration-200 cursor-pointer border-0 ${
               activeTab === "locations" ? "bg-[#00FF88] text-black shadow-[0_0_12px_rgba(0,255,136,0.3)]" : "text-white/40 hover:text-white"
             }`}
           >
@@ -228,7 +228,7 @@ export default function WorldBible({
         </div>
 
         {/* Dynamic header and Create Btn */}
-        <div className="bg-[#121212] border border-white/10 p-4 rounded-xl shadow-xl flex justify-between items-center text-left">
+        <div className="bg-[#121212] border border-white/10 p-3.5 rounded-xl shadow-xl flex justify-between items-center text-left">
           <div>
             <h3 className="font-extrabold text-white text-xs uppercase tracking-wider font-mono">
               {activeTab === "premise" ? "Manuscript Premise" : activeTab === "characters" ? "Persona Profiles" : "Environment Index"}
@@ -288,7 +288,7 @@ export default function WorldBible({
                 <div
                   key={char.id}
                   onClick={() => handleSelectChar(char)}
-                  className={`bg-[#121212]/90 border p-3.5 rounded-xl shadow-xl cursor-pointer hover:border-[#00FF88]/50 transition relative text-left ${
+                  className={`bg-[#121212]/90 border p-3 rounded-xl shadow-xl cursor-pointer hover:border-[#00FF88]/50 transition relative text-left ${
                     selectedCharId === char.id ? "ring-1 ring-[#00FF88] border-[#00FF88] bg-[#00FF88]/5" : "border-white/10"
                   }`}
                 >
@@ -366,7 +366,7 @@ export default function WorldBible({
                 <div
                   key={loc.id}
                   onClick={() => handleSelectLoc(loc)}
-                  className={`bg-[#121212]/90 border p-3.5 rounded-xl shadow-xl cursor-pointer hover:border-[#00FF88]/50 transition relative text-left ${
+                  className={`bg-[#121212]/90 border p-3 rounded-xl shadow-xl cursor-pointer hover:border-[#00FF88]/50 transition relative text-left ${
                     selectedLocId === loc.id ? "ring-1 ring-[#00FF88] border-[#00FF88] bg-[#00FF88]/5" : "border-white/10"
                   }`}
                 >

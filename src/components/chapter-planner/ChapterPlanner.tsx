@@ -263,10 +263,10 @@ Locations available in project: ${locations.map(l => l.name).join(", ") || "Shad
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" id="planner-root">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4" id="planner-root">
       {/* Sidebar with Chapters sequence */}
-      <div className="lg:col-span-4 space-y-4">
-        <div className="flex justify-between items-center bg-[#121212] border border-white/10 p-4 rounded-xl shadow-xl text-left">
+      <div className="lg:col-span-4 space-y-3">
+        <div className="flex justify-between items-center bg-[#121212] border border-white/10 p-3.5 rounded-xl shadow-xl text-left">
           <div>
             <h2 className="font-extrabold text-white text-xs uppercase tracking-wider font-mono">Manuscript Timeline</h2>
             <p className="text-[10px] text-white/40 font-mono text-left">{chapters.length} chapters total</p>
@@ -440,19 +440,19 @@ Locations available in project: ${locations.map(l => l.name).join(", ") || "Shad
         ) : (
           <div className="flex flex-col h-full animate-in fade-in duration-200" id="planner-detail-panel">
             {/* Header details bar */}
-            <div className="border-b border-white/5 p-5 bg-[#0D0D0D] flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="border-b border-white/5 p-4 bg-[#0D0D0D] flex flex-col md:flex-row justify-between md:items-center gap-3">
               <div>
-                <span className="text-[10px] font-bold tracking-widest text-[#00FF88] uppercase font-mono">
+                <span className="text-[9.5px] font-bold tracking-widest text-[#00FF88] uppercase font-mono">
                   CHAPTER {activeChapter.chapterNumber} STRUCTURE
                 </span>
-                <h3 className="text-lg font-black font-sans text-white tracking-tight leading-tight mt-0.5">
+                <h3 className="text-base font-black font-sans text-white tracking-tight leading-tight mt-0.5">
                   {activeChapter.title}
                 </h3>
               </div>
             </div>
 
             {/* Quick config fields */}
-            <div className="p-5 border-b border-white/5 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 border-b border-white/5 grid grid-cols-1 md:grid-cols-2 gap-3.5">
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest font-mono block">POV Character</label>
                 <select
@@ -489,7 +489,7 @@ Locations available in project: ${locations.map(l => l.name).join(", ") || "Shad
             </div>
 
             {/* Pacing beats section */}
-            <div className="p-5 flex-1 space-y-4">
+            <div className="p-4 flex-1 space-y-3.5">
               <div className="flex justify-between items-center text-left">
                 <div>
                   <h4 className="text-sm font-black text-white uppercase tracking-wider italic">Sequential Plot Beats</h4>

@@ -264,15 +264,13 @@ export const dbStore = {
       defaultPOV,
       antiSlopRules: [
         "WRITE IN A NATURAL, GROUNDED, FLUID, AND HUMAN WRITING STYLE - STRICTLY AVOID AI SLOP, COLDNESS, AND CLICHÉS.",
-        "WEBNOVEL MICRO-PARAGRAPH FORMATTING: Paragraphs MUST be extremely tiny, with a STRICT maximum of 1 to 3 sentences per paragraph (1-3 sentences max) to ensure easy mobile phone scrolling.",
-        "BAHASA SEDERHANA & BERKUALITAS: Write in ultra-transparent, simple language that is clear upon a single reading. Avoid poetic flowery prose, heavy world lore lectures, and dense scenery descriptions.",
-        "ABSOLUTE BAN ON OVER-DESCRIBING BACKGROUND PROPS: Never decorate minor scenery objects with redundant descriptions or adjectives (e.g., Avoid writing: 'rusted hydraulics', 'hidrolik yang berkarat', 'rusted skeleton of the excavator', 'weathered metal', 'decaying fence', 'besi tua yang berdebu'). The reader does not care about these. Simply write 'hydraulics' or 'excavator'. Keep minor objects completely plain without decoration.",
-        "ABSOLUTE BAN ON NEGATIVE-CONTRASTS / NEGATED COMPARISONS: Under no circumstances use negative contrast patterns (e.g., 'did not rush', 'did not warm', 'tidak hangat', 'bukan sekadar X melainkan Y'). State exactly what IS happening or IS there directly.",
-        "ABSOLUTE BAN ON SMELL OR ODOR DESCRIPTIONS: Never describe smells, aromas, fragrances, or ambient odors.",
-        "ABSOLUTE BAN ON REPETITIVE DIALOGUE ATTRIBUTION: Avoid formulaic action-tagting like 'X did action then said'. Use natural tagless dialogue that flows freely.",
-        "ABSOLUTE BAN ON EM-DASHES: Under no circumstances use any em-dashes (—) or double hyphens (--) in narration or dialogues.",
-        "ABSOLUTE BAN ON OVERUSED ADJECTIVES: Never write: 'palpable', 'piercing', 'ethereal', 'crimson', or 'echoed'.",
-        "ABSOLUTE BAN ON STORYTELLER TROPES: Avoid 'Little did he know...', 'As if on cue...', 'With a swift motion...', or any direct foreshadowing narration."
+        "WEBNOVEL MICRO-PARAGRAPH FORMATTING: Keep paragraphs concise (1 to 3 sentences max per paragraph) for mobile screens, but ensure the narrative flows smoothly and naturally. Do not write choppy or artificially fragmented staccato sentences.",
+        "DIALOGUE DENSITY: Aim for high dialogue density where 30% to 50% of the chapter consists of direct character speech and back-and-forth interactions.",
+        "BAHASA SEDERHANA & BERKUALITAS: Write in clear, transparent, and direct language. Avoid overly flowery prose, heavy meta-exposition, or long lectures about world lore.",
+        "CONCISE BACKGROUND OBJECTS: Keep descriptions of minor background items simple and focused. Do not over-decorate non-essential scenery.",
+        "NATURAL DIALOGUE FLOW: Use tagless dialogue when the speaker is clear, and blend speech with actions without using repetitive tag formulas. Use natural spoken register particles (e.g. sih, kok, kan, dong, ya, aja, deh).",
+        "ACTIVE SENTENCE STRUCTURES: Prioritize active and positive descriptions. Normal negations are fine to use naturally, but focus on keeping the pace dynamic.",
+        "ABSOLUTE BAN ON SMELLS & BANNED WORDS: Never describe smells, odors, or olfactory atmospheres under any circumstances. Strictly ban the word 'ozone' (or 'ozon')."
       ],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -445,7 +443,9 @@ export const dbStore = {
       powerLevel: "",
       affiliations: [],
       relationships: [],
-      tags: []
+      tags: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
     characters.push(newChar);
     this.saveCharacters(characters);
@@ -462,7 +462,7 @@ export const dbStore = {
     const characters = this.getCharacters();
     const idx = characters.findIndex(c => c.id === id);
     if (idx === -1) throw new Error("Character not found.");
-    characters[idx] = { ...characters[idx], ...updates };
+    characters[idx] = { ...characters[idx], ...updates, updatedAt: new Date().toISOString() };
     this.saveCharacters(characters);
 
     const userId = auth.currentUser?.uid;
@@ -510,7 +510,9 @@ export const dbStore = {
       description: "",
       atmosphere: "",
       notableFeatures: [],
-      tags: []
+      tags: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
     locations.push(newLoc);
     this.saveLocations(locations);
@@ -527,7 +529,7 @@ export const dbStore = {
     const locations = this.getLocations();
     const idx = locations.findIndex(l => l.id === id);
     if (idx === -1) throw new Error("Location not found.");
-    locations[idx] = { ...locations[idx], ...updates };
+    locations[idx] = { ...locations[idx], ...updates, updatedAt: new Date().toISOString() };
     this.saveLocations(locations);
 
     const userId = auth.currentUser?.uid;

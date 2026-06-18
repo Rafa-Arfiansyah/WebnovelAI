@@ -6,102 +6,137 @@ import { Chapter, Character, Location } from "../types";
 // SYSTEM: Base prose rules yang selalu dipakai
 // ─────────────────────────────────────────────
 export const BASE_PROSE_RULES = `
-CRITICAL WEBNOVEL WRITING RULES — STRICT COMPLIANCE REQUIRED
+════════════════════════════════════════════════════════
+WEBNOVEL PROSE DIRECTIVES — PRIORITY-TIERED
+════════════════════════════════════════════════════════
+Priority tiers:
+  [P0] = ABSOLUTE. Violating this breaks the chapter. Zero tolerance.
+  [P1] = CRITICAL. Strongly enforced every paragraph.
+  [P2] = STANDARD. Apply consistently throughout.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 1 — PARAGRAPH RHYTHM & EASY FLOW
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Keep paragraphs short. Hard cap: 4 sentences maximum per paragraph, no exceptions.
-But paragraph length is not the end goal—SMOOTH RHYTHMIC FLOW IS.
+────────────────────────────────────────────────────────
+[P0-A] BANNED PATTERNS — NEVER WRITE THESE
+────────────────────────────────────────────────────────
+These are the clearest signal that prose is AI-generated. Any instance = immediate failure.
 
-- Vary paragraph lengths intentionally to maintain natural pacing.
-- Avoid stacking multiple ultra-short 1-sentence paragraphs back-to-back if they describe a single continuous action; combine them so the story flows gracefully.
-- Break up text naturally, but keep consecutive beats cohesive. Do not artificially fragment ideas that belong together.
+▸ NEGATION FRAMING (redefining X by saying what it is NOT):
+  ❌ "That wasn't just a bet. It was a guarantee."
+  ❌ "It wasn't merely fear. It was something deeper."
+  ❌ "The payments weren't missing. They were being diverted."
+  ❌ "Bukan sekadar ancaman. Itu perintah."
+  ✅ Write the actual thing directly: "It was a guarantee." / "Someone was diverting the payments." / "Itu perintah."
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 2 — DECORATION-FREE PLAIN LANGUAGE (NO POETIC, NO CINEMATIC, NO METAPHORS)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Write in language that is instantly clear, transparent, and simple on a single read.
+▸ CINEMATIC/POETIC SCENE OPENERS:
+  ❌ "The rain fell in silver sheets across the broken skyline..."
+  ❌ "Silence hung over the room like a funeral shroud."
+  ❌ "Cahaya rembulan menyapu lantai beton yang dingin..."
+  ✅ Open with action, dialogue, or immediate reaction. Weave setting in later.
 
-- NO POETIC WRITING: Absolutely no beautiful, flowery, ornate, or poetic language. Keep the styling clean and dry.
-- NO CINEMATIC SETTINGS: Do not write cinematic landscape panning, romantic color shifts, or heavy environmental mood-setting.
-- NO METAPHORS & COMPARISONS: Avoid descriptive metaphors or analogies (e.g., do not say "silence felt like a cold blanket", "eyes like coals", or "his heart felt like a hammered drum"). State the physical reality directly and plainly.
-- Use simple everyday nouns, active direct verbs, and straightforward syntax. If a sentence feels like a fancy novel, simplify it.
+▸ BANNED INTENSITY WORDS (always sound theatrical, never earned):
+  palpable / piercing / ethereal / visceral / electrifying / haunting / suffocating
+  "heavy silence" / "oppressive air" / "shiver ran down his spine"
+  "heart hammered" / "eyes widened" / "breath caught in his throat"
+  Use these ONLY if the scene genuinely earns extreme physical shock — and only once per chapter maximum.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 3 — NO DECORATING BACKGROUND PROPS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Minor scenery objects get zero adjectives. Do not dress up background items.
+▸ BANNED WORD: "ozone" — never use this word in any context.
 
-BANNED: "rusted hydraulics", "weathered metal", "decaying fence", "crumbling walls", "battered crate", "jagged stone plates", "charcoal hair"
-CORRECT: "hydraulics", "metal", "fence", "walls", "crate", "stone plates", "hair"
+▸ SMELLS — ABSOLUTE BAN:
+  Never describe smells, odors, scents, fragrance, or olfactory atmosphere. Not once.
 
-The reader does not care about the texture or state of background objects. If it is not plot-critical, keep it completely plain.
+────────────────────────────────────────────────────────
+[P0-B] SENTENCE FLOW — NO ROBOTIC STACCATO
+────────────────────────────────────────────────────────
+Continuous actions and related gestures MUST flow as one sentence. Do not chop them into robotic mini-sentences.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 4 — NO NEGATION PATTERNS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Never describe what is NOT happening, what someone is NOT doing, or what is NOT there. Always state directly, positively, and actively what IS happening or what IS there.
+  ❌ "He stood up. He brushed dust off his knees. He looked up."
+  ❌ "She exhaled. She reached for the door. She stopped."
+  ✅ "He stood, brushed dust off his knees, and looked up."
+  ✅ "She exhaled, reached for the door, then stopped."
 
-BANNED patterns:
-- "did not warm" / "did not rush" / "was not merely"
-- "tidak hangat" / "tidak terburu-buru"
-- "bukan sekadar X, melainkan Y"
-- "tidak hanya X, tetapi juga Y"
+This is the single biggest reason prose sounds robotic. Enforce this every paragraph.
 
-FAIL: "The light did not warm the room." -> PASS: "The light felt cold against the walls."
-FAIL: "He did not rush." -> PASS: "He moved slowly." or "He took his time."
-FAIL: "She wasn't merely sad..." -> PASS: "An overwhelming sorrow crushed her."
+────────────────────────────────────────────────────────
+[P1-A] DIALOGUE — NATURAL DENSITY & VOICE
+────────────────────────────────────────────────────────
+Target: 30–50% of chapter content must be direct spoken dialogue.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 5 — DIALOGUE: NATURAL FLOW, NOT FORMULAIC
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Avoid repetitive or formulaic dialogue tag patterns.
+▸ ALWAYS use standard double quotation marks ("...") for all speech. Never omit them.
 
-BANNED A: "[Dialogue]," kata X sambil [action].
-BANNED B: [Action]. "[Dialogue]."
+▸ Use spoken particles and contractions to make characters sound human:
+  English: don't, can't, I'm, yeah, gonna, nah, look
+  Indonesian: sih, kok, kan, dong, lho, ya, aja, deh, tuh, nggak, gimana
 
-Using either pattern repeatedly makes prose feel robotic. Instead, use:
-- TAGLESS dialogue where characters speak back and forth with zero voice tags.
-- DETACHED ACTION BEATS where a character acts, then speaks in separate, distinct thoughts or paragraphs.
-- NATURAL SPOKEN REGISTER: Use genuine spoken contractions and conversational particles (English: don't, can't, I've, you're; Indonesian: sih, kok, kan, dong, lho, ya, aja, deh, tuh) to make speech sound alive and natural.
-- NO PHYSICAL TICKS ON EVERY LINE: Characters should not cross their arms, sigh, wipe their forehead, or nod every time they open their mouth.
+▸ Vary dialogue attribution. Do NOT use the same formula every turn:
+  ❌ (Repeated) "Action. 'Dialogue.'" / "'Dialogue,' kata X sambil Action."
+  ✅ Mix: tagless back-and-forth / action before speech / speech then action / internal thought bridging dialogue
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 6 — NO SMELL DESCRIPTIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Zero olfactory descriptions. Do not describe smells, odors, perfume, air scent, body odor, or fragrance. Focus on: tactile, visual, sound, or immediate tactical thinking.
+▸ BAD (formulaic, robotic):
+  He crossed his arms. "You don't know what you're talking about."
+  She looked away. "Maybe I do."
+  He stepped forward. "Then prove it."
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 7 — START IN THE FRAME
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Never open a chapter or scene with weather, light angles, landscape panning, or mood setting. Open immediately on page one, sentence one with:
-- A line of raw spoken dialogue, or
-- An active physical task already in progress, or
-- An immediate direct internal thought.
+▸ GOOD (varied, natural):
+  He crossed his arms. "You don't know what you're talking about."
+  "Maybe I do."
+  "Then prove it." He stepped forward, close enough that she had to tilt her head back to meet his eyes.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 8 — BANNED INTENSITY WORDS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-These words are permanently banned:
-palpable / piercing / ethereal / crimson / echoed / shiver ran down / eyes widened / heart hammered / swallowed hard / heavy silence / heavily (when describing abstract emotions)
+▸ Solo character scenes: let them mutter aloud, recall verbal exchanges, or replay past conversations in internal monologue to maintain dialogue presence.
 
-Use direct words: never use "crimson", simply write "red". Do not use "heavy silence", state what the characters are actually doing.
+────────────────────────────────────────────────────────
+[P1-B] PROP & SETTING DESCRIPTION — MINIMAL ADJECTIVES
+────────────────────────────────────────────────────────
+Minor background objects get ZERO decorative adjectives. Only named, plot-relevant items earn descriptors.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RULE 9 — SENTENCE COHESION & FLOW (STRICTLY AVOID ARTIFICIAL SENTENCE FRAGMENTS)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Absolutely do NOT chop continuous, single-concept lines of action or physical movements into short, robotic, artificial staccato sentence fragments. The narration must flow smoothly and be easy to understand.
+  ❌ "the rusted hydraulic door" / "weathered concrete walls" / "a narrow service hatch" / "a fine layer of grit"
+  ✅ "the door" / "concrete walls" / "the hatch" / "grit on the floor"
 
-Combine related actions or immediate gestures into fluid, cohesive sentences using participles, subordinate clauses, or natural coordinating punctuation. Do not write a series of choppy 2-word sentences for simple gestures.
+Use only 1–2 concrete visual details to establish a scene. Then move on.
 
-FAIL (Choppy/Artificially fragmented):
-He stood. His chest heaved. His eyes burned with red light.
+────────────────────────────────────────────────────────
+[P1-C] PACING — SHORT PARAGRAPHS, VARIABLE RHYTHM
+────────────────────────────────────────────────────────
+▸ Micro-paragraphs: 1–3 sentences max per paragraph for mobile readability.
+▸ Vary paragraph length deliberately: a 1-sentence beat after a 3-sentence build creates rhythm.
+▸ No paragraph should exceed 4 sentences. If it does, split it.
+▸ Do NOT fast-forward or skip beats. Flesh out every beat in the outline fully.
 
-PASS (Cohesive/Flowing/Easy to understand):
-He stood, his chest heaving, his eyes burning with a residual red light.
+────────────────────────────────────────────────────────
+[P1-D] HIT TARGET LENGTH WITHOUT FILLER
+────────────────────────────────────────────────────────
+To reach word count targets WITHOUT resorting to scenery decoration or purple prose:
 
-Always make sure the text flows naturally, maintains high readability, and reads effortlessly upon a single reading.`;
+1. EXPAND DIALOGUE — Write longer conversation threads. Characters debate tactics, voice doubts, argue options.
+2. DEEPEN INTERNAL MONOLOGUE — Let the POV character analyze surroundings, plan next moves, reflect on constraints.
+3. PACE THE ACTION — Break tense sequences into sequential beats with internal reactions between physical moves.
+
+Never pad with ambient description, weather, or atmosphere to hit word count.
+
+────────────────────────────────────────────────────────
+[P2-A] VOCABULARY — SIMPLE, DIRECT, MODERN
+────────────────────────────────────────────────────────
+▸ Prefer the simpler word. "red" over "crimson" unless crimson is specifically right. "dark" over "shadow-drenched."
+▸ No stacked adjectives on a single noun: "the old, rusted, creaking metal door" → "the metal door."
+▸ No adverb stacking: "she said softly and quietly" → "she said quietly."
+▸ Avoid academic/theatrical vocabulary. Write like a person who reads a lot, not like someone performing literature.
+
+────────────────────────────────────────────────────────
+[P2-B] SCENE ENTRY — ORGANIC & IN-MOTION
+────────────────────────────────────────────────────────
+▸ Start chapters/scenes mid-action, mid-dialogue, or on a character's immediate reaction.
+▸ NEVER open with weather, landscape panning, or atmospheric throat-clearing.
+▸ If setting context is needed, insert it naturally after the first action beat.
+
+════════════════════════════════════════════════════════
+PRE-WRITE MENTAL CHECKLIST (run before generating each paragraph):
+  [ ] Does this paragraph start mid-action or mid-thought? (Not with weather/atmosphere)
+  [ ] Are continuous gestures combined into one flowing sentence?
+  [ ] No negation framing? ("wasn't just X" etc.)
+  [ ] No banned intensity words?
+  [ ] No smell descriptions?
+  [ ] Minor props described without adjectives?
+  [ ] Dialogue uses natural particles/contractions?
+  [ ] Paragraph is 1–3 sentences max?
+════════════════════════════════════════════════════════`;
 
 // ─────────────────────────────────────────────
 // CHAPTER GENERATION PROMPT
@@ -146,51 +181,68 @@ export function buildChapterGenerationPrompt(params: ChapterPromptParams): strin
     : "High-intensity environment with ambient danger.";
 
   const historyStr = precedingChapters.length
-    ? precedingChapters.map(c => `Chapter ${c.chapterNumber} History: [${c.summary || "Ryan Vance survives and advances."}]`).join("\n")
-    : "No previous chapters indexed yet (Awakening / Volume start context).";
+    ? precedingChapters.map(c => `Chapter ${c.chapterNumber}: [${c.summary || "Protagonist survives and advances."}]`).join("\n")
+    : "No previous chapters indexed yet (Volume start context).";
 
   const customRulesStr = projectRules.length
-    ? `\nSTRICT CUSTOM DIRECTIVES FROM CLIENT (MANDATORY ENFORCEMENT):\n` + projectRules.map((v, i) => `- [CRITICAL RULE ${i + 1}] ${v}`).join("\n")
+    ? `\n\n────────────────────────────────────────────────────────\nCUSTOM DIRECTIVES — [P0] MANDATORY, NO EXCEPTIONS\n────────────────────────────────────────────────────────\n` +
+    projectRules.map((v, i) => `[CUSTOM-${i + 1}] ${v}`).join("\n")
     : "";
 
   const mimicStr = mimicStyleText.trim()
-    ? `\n\n[CRITICAL DIRECTIVE: MIMIC USER-PROVIDED ORIGINAL WRITING STYLE]
-You MUST mimic the exact vocabulary density, sentence complexity, paragraph-split rhythm, Indonesian/English language slang blend, and character voicing patterns of the author's reference text below. Do NOT just copy general tone; mimic how the prose is physically constructed, the word usage, and style of writing:
+    ? `\n\n════════════════════════════════════════════════════════
+STYLE MIMIC DIRECTIVE — [P0] HIGHEST PRIORITY
+════════════════════════════════════════════════════════
+Mimic the EXACT prose construction of this reference text. Not just tone — the physical sentence rhythm, paragraph split pattern, vocabulary density, Indonesian/English blend, and character voice cadence.
+
+Study how sentences are built. Study where paragraphs break. Study which words the author chooses versus avoids. Then write the chapter as if this author wrote it.
+
+REFERENCE TEXT:
 """
 ${mimicStyleText.trim()}
 """`
     : "";
 
-  return `CORE WRITING TASK: Draft Chapter ${chapter.chapterNumber} of the manuscript.
-Chapter Title Goal: "${chapter.title}"
-Target Chapter Length: Around ${wordCountTarget} words.
-Current Focus POV: ${chapter.pov}
+  return `TASK: Write Chapter ${chapter.chapterNumber} of the manuscript.
+Title Goal: "${chapter.title}"
+Target Length: ~${wordCountTarget} words
+POV: ${chapter.pov}
+Tone Preset: [${toneAdjustment}]
 
-[CRITICAL PROSE STYLE BASE RULES]
+════════════════════════════════════════════════════════
+PROSE DIRECTIVES — READ FULLY BEFORE WRITING
+════════════════════════════════════════════════════════
 ${BASE_PROSE_RULES}
-
-PREPARED OUTLINE BEATS:
-${beatsStr}
-
-DUNGEON LOCATION SETTING:
-${locationStr}
-
-ACTIVE CAST MEMBERS IN PLAY:
-${charsStr}
-
-PRECEDING CHAPTER HISTORY SUMMARY:
-${historyStr}
-
-ADDITIONAL WRITER SPECIFIC MEMO DIR:
-${customInst || "Write this sequence with focused visual logic and dry tactical dialogue."}
 ${customRulesStr}
 ${mimicStr}
 
-Write out the raw chapter text in solid HTML paragraph format (using standard <p> tags for line separation) aligning precisely with the pacing of each plot beat. Do NOT introduce any conversational notes, explanations, or labels before or after the HTML text.`;
+════════════════════════════════════════════════════════
+CHAPTER CONTEXT
+════════════════════════════════════════════════════════
+PLOT BEATS (write every beat fully — no skipping):
+${beatsStr}
+
+LOCATION:
+${locationStr}
+
+ACTIVE CHARACTERS:
+${charsStr}
+
+CHAPTER HISTORY:
+${historyStr}
+
+WRITER MEMO:
+${customInst || "Write with focused visual logic and dry tactical dialogue."}
+
+════════════════════════════════════════════════════════
+OUTPUT FORMAT
+════════════════════════════════════════════════════════
+Return ONLY raw chapter prose wrapped in <p> tags.
+Zero preamble. Zero post-chapter notes. Zero labels. Just the story.`;
 }
 
 // ─────────────────────────────────────────────
-// BASIC INSTR_RULES GENERATION FOR CH_STREAM
+// SYSTEM INSTRUCTION FOR CHAPTER STREAM
 // ─────────────────────────────────────────────
 export function buildChapterSystemInstruction(
   chapterNumber: number,
@@ -199,67 +251,94 @@ export function buildChapterSystemInstruction(
   mimicStyleText: string
 ): string {
   const customProjectRulesStr = projectRules.length > 0
-    ? `\n\nSTRICT DIRECT CUSTOM DIRECTIVES FROM CLIENT (MANDATORY ENFORCEMENT):\n` + projectRules.map((v, i) => `- [CRITICAL RULE ${i + 1}] ${v}`).join("\n")
+    ? `\n\n────────────────────────────────────────────────────────\nCUSTOM DIRECTIVES — [P0] MANDATORY\n────────────────────────────────────────────────────────\n` +
+    projectRules.map((v, i) => `[CUSTOM-${i + 1}] ${v}`).join("\n")
     : "";
 
   const mimicStyleInstruction = mimicStyleText.trim()
-    ? `\n\n[CRITICAL DIRECTIVE: MIMIC USER-PROVIDED ORIGINAL WRITING STYLE]
-You MUST mimic the exact vocabulary density, sentence complexity, paragraph-split rhythm, Indonesian/English language slang blend, and character voicing patterns of the author's reference text below. Do NOT just copy general tone; mimic how the prose is physically constructed, the word usage, and style of writing:
+    ? `\n\n════════════════════════════════════════════════════════
+STYLE MIMIC DIRECTIVE — [P0] HIGHEST PRIORITY
+════════════════════════════════════════════════════════
+Mimic the EXACT prose construction of this reference text. Not just tone — the physical sentence rhythm, paragraph split pattern, vocabulary density, Indonesian/English blend, and character voice cadence.
+
+REFERENCE TEXT:
 """
 ${mimicStyleText.trim()}
 """`
     : "";
 
-  return `You are an elite webnovel writer. Write the FULL, detailed narrative of Chapter ${chapterNumber}.
-CRITICAL: Do NOT summarize, outline, or skip scenes. Write actual, raw, fully immersive, fluid narrative prose representing the target length.
+  return `You are an elite webnovel writer. Your task: write the FULL, detailed narrative of Chapter ${chapterNumber}.
 
-[CRITICAL PROSE STYLE BASE RULES — APPLY THESE STYLISTIC CONTROLS STRONGLY]
+CRITICAL OUTPUT RULE: Do NOT summarize, outline, or skip scenes. Write actual, fully immersive narrative prose at target length. Every beat in the outline must be fully written out.
+
+════════════════════════════════════════════════════════
+PROSE DIRECTIVES — [P0] RULES ARE NON-NEGOTIABLE
+════════════════════════════════════════════════════════
 ${BASE_PROSE_RULES}
+${customProjectRulesStr}
+${mimicStyleInstruction}
 
-PROSE STYLE DIRECTIVE:
-- Maintain a natural, flowing narrative pacing ("mengalir lancar") with seamless scene transitions and authentic character dynamics.
-- Absolutely NO poetic or cinematic metaphors, no landscape descriptions, or atmospheric flowery writing.
-- Style Must Flow: Avoid excessive fragmented sentence splits or robotic staccato. Ensure gestures are described with smooth, integrated syntax.
-- Focus on concrete actions, realistic character motions, and vivid sensory grounding.
-- Tone Preset: Write in a [${toneAdjustment}] style.
+TONE PRESET: [${toneAdjustment}]
 
-COMPLY WITH THE PRECISE WRITING GUARD CONFIGURATIONS:
-You MUST strictly enforce and incorporate every single custom writing guard rule defined below. Do NOT ignore any of these guidelines:${customProjectRulesStr}
-
-FORMATTING REQUIREMENT:
-- Return ONLY the continuous sequence of story paragraphs wrapped in <p> tags.
-- Absolutely NO conversational introductions, notes, comments, warnings, or outlines before or after the narrative.${mimicStyleInstruction}`;
+════════════════════════════════════════════════════════
+OUTPUT FORMAT
+════════════════════════════════════════════════════════
+Return ONLY the chapter prose in continuous <p> tags.
+Absolutely NO conversational introductions, author notes, outlines, warnings, or meta-commentary before or after the narrative.`;
 }
 
-// ─────────────────────────────────────────────
-// ANTI-SLOP ANALYSIS PROMPT
-// ─────────────────────────────────────────────
 // ─────────────────────────────────────────────
 // ANTI-SLOP ANALYSIS PROMPT
 // ─────────────────────────────────────────────
 export function buildSlopAnalysisPrompt(chapterContent: string, synopsis: string): string {
   return `You are an expert webnovel editor specialized in detecting AI-generated writing patterns ("AI slop") in fiction.
 
-Analyze the chapter draft below and return a single valid JSON object matching this exact structure. No preamble, no markdown fences, no explanation outside the JSON.
+Analyze the chapter draft below and return a single valid JSON object matching the exact structure specified. No preamble, no markdown fences, no explanation outside the JSON.
 
-SCORING CONVENTION:
-- All scores range 0–100.
-- Higher score = WORSE (more slop, more AI-like).
-- overallScore: weighted average of all subscores. 0 = perfectly human prose. 100 = maximum AI slop.
+════════════════════════════════════════════════════════
+SCORING CONVENTION
+════════════════════════════════════════════════════════
+All scores range 0–100. Higher = WORSE (more AI-like slop).
+overallScore: weighted average of all subscores. 0 = clean human prose. 100 = pure AI slop.
 
-SUBSCORES:
-- purpleProse: Poetic/cinematic/over-decorated language, fancy metaphors, ambient scene-setting as opening.
-- negationPatterns: Use of "did not", "was not merely", "bukan sekadar X melainkan Y" patterns instead of direct positive statements.
-- dialogueFormulaic: Repetitive "[action]. [dialogue]" or "[dialogue]," kata X sambil [action]." patterns on consecutive lines.
-- adverbDensity: Overuse of adverbs, especially emotional adverbs ("softly", "quietly", "heavily").
-- clicheIntensity: Banned intensity words — "palpable", "piercing", "ethereal", "heart hammered", "eyes widened", "heavy silence", "shiver ran down".
-- propOverdescription: Decorating minor background objects with adjectives ("rusted hydraulics", "weathered metal", "decaying fence").
-- pacingIssues: Dense paragraphs (4+ sentences), uniform paragraph lengths with no rhythm variation, slow scene entry, or severe sentence fragmentation/robotic staccato (where continuous gestures or posture changes that should flow as one sentence are chopped into individual mini-sentences).
+════════════════════════════════════════════════════════
+SUBSCORES — WHAT EACH MEASURES
+════════════════════════════════════════════════════════
+purpleProse:
+  Poetic/cinematic/over-decorated language. Fancy metaphors. Ambient scene-setting as chapter opener.
+  Flag: weather openers, landscape panning, "silence hung like X", "light fell like Y"
 
-RETURN THIS EXACT JSON STRUCTURE:
+negationPatterns:
+  "Not just X, but Y" / "wasn't merely X" / "bukan sekadar X melainkan Y" constructions.
+  Flag: any sentence that defines something by first saying what it is NOT.
+
+dialogueFormulaic:
+  Repetitive attribution patterns used on consecutive lines.
+  Flag: "[action]. '[dialogue]'" or "'[dialogue],' kata X sambil [action]" appearing 3+ times in sequence without variation.
+
+adverbDensity:
+  Overuse of adverbs, especially emotional/manner adverbs.
+  Flag: softly, quietly, heavily, gently, slowly used more than once per 200 words; adverb stacking.
+
+clicheIntensity:
+  Banned intensity words used as lazy emphasis.
+  Flag: palpable, piercing, ethereal, visceral, "heart hammered", "eyes widened", "breath caught", "shiver ran down", "heavy silence".
+
+propOverdescription:
+  Decorating minor background objects with adjectives.
+  Flag: "rusted hydraulics", "weathered metal", "crumbling concrete", "narrow hatch", "dim corridor" applied to background props with no plot relevance.
+
+pacingIssues:
+  Covers TWO failure modes — (A) dense walls of text OR (B) robotic staccato.
+  Flag A: paragraphs 4+ sentences, uniform length with no rhythm variation, slow scene entry.
+  Flag B: continuous gestures/actions chopped into separate single-sentence mini-paragraphs ("He stood up. He brushed his knees. He looked up.")
+
+════════════════════════════════════════════════════════
+RETURN THIS EXACT JSON STRUCTURE
+════════════════════════════════════════════════════════
 {
   "overallScore": number,
-  "summary": "One paragraph. What's the biggest problem in this chapter and the most urgent fix.",
+  "summary": "One paragraph. The biggest problem in this chapter and the single most urgent fix.",
   "scores": {
     "purpleProse": number,
     "negationPatterns": number,
@@ -274,22 +353,25 @@ RETURN THIS EXACT JSON STRUCTURE:
       "id": "unique_id",
       "category": "PurpleProse" | "NegationPattern" | "DialogueFormulaic" | "Adverb" | "ClicheIntensity" | "PropOverdescription" | "Pacing",
       "severity": "High" | "Medium" | "Low",
-      "originalText": "exact flagged passage from the chapter",
+      "originalText": "exact flagged passage copied verbatim from the chapter",
       "startIndex": number or null,
-      "explanation": "specific reason this is flagged, referencing the exact rule violated",
+      "explanation": "specific reason this is flagged, naming the exact rule violated",
       "suggestions": ["concrete rewrite option 1", "concrete rewrite option 2"]
     }
   ]
 }
 
-ANALYSIS RULES:
+════════════════════════════════════════════════════════
+ANALYSIS RULES
+════════════════════════════════════════════════════════
 - Flag ONLY actual violations. Do not flag clean prose.
-- originalText must be copied verbatim from the chapter. Never paraphrase it.
-- Each suggestion must be a drop-in replacement, same narrative beat, zero slop.
-- If synopsis is provided, use it only to understand character/plot context. Do not flag stylistic choices that are intentional given the story context.
-- Prioritize High severity issues. Cap total issues at 20. If more exist, surface the worst ones.
+- originalText must be copied verbatim. Never paraphrase the flagged passage.
+- Each suggestion must be a drop-in replacement: same narrative beat, zero slop.
+- If synopsis is provided, use it for character/plot context only. Do not flag intentional stylistic choices given story context.
+- Prioritize High severity. Cap total issues at 20. If more exist, surface the worst ones.
 
-PROJECT SYNOPSIS (for context only):
+════════════════════════════════════════════════════════
+PROJECT SYNOPSIS (context only — do not analyze this):
 ${synopsis || "No synopsis provided."}
 
 CHAPTER TO ANALYZE:
@@ -302,28 +384,31 @@ Return ONLY valid JSON. No preamble.`;
 // VOCAB SIMPLICITY PROMPT
 // ─────────────────────────────────────────────
 export function buildVocabAnalysisPrompt(chapterContent: string): string {
-  return `You are a readability editor for webnovels. Identify pretentious, overly formal, or "kaku" words.
+  return `You are a readability editor for webnovels targeting mobile readers. Identify words that feel pretentious, overly formal, theatrical, or "kaku" — out of place for casual grounded prose.
 
-Return JSON:
+Return JSON only. No preamble.
+
 {
   "issues": [
     {
       "id": "unique_id",
       "word": "the problematic word",
-      "originalText": "sentence containing the word",
-      "explanation": "why it feels stiff/formal",
+      "originalText": "the full sentence containing the word",
+      "explanation": "why it feels stiff, formal, or theatrical in this context",
       "suggestions": ["simpler alternative 1", "simpler alternative 2"],
       "status": "pending"
     }
   ]
 }
 
-Target: casual, grounded webnovel prose. Replace clinical/theatrical/academic words with direct everyday language.
+TARGET REGISTER: Casual, grounded, everyday language. Replace clinical/theatrical/academic vocabulary with words a sharp person would use in natural conversation.
 
-CONTENT:
+Do NOT flag words that are genuinely the best choice for the context. Only flag when a simpler word would serve equally well or better.
+
+CONTENT TO ANALYZE:
 ${chapterContent}
 
-Return ONLY valid JSON. No preamble.`;
+Return ONLY valid JSON.`;
 }
 
 // ─────────────────────────────────────────────
@@ -334,7 +419,7 @@ export function buildPolishPassagePrompt(
   polishQuery: string,
   synopsis: string
 ): string {
-  return `You are a webnovel prose editor. Rewrite ONLY the passage below based on the instruction.
+  return `You are a webnovel prose editor. Rewrite ONLY the passage below based on the instruction given.
 
 INSTRUCTION: ${polishQuery}
 
@@ -344,15 +429,22 @@ ORIGINAL PASSAGE:
 NOVEL CONTEXT:
 ${synopsis || "No context provided."}
 
-[CRITICAL PROSE STYLE BASE RULES]
-${BASE_PROSE_RULES}
+════════════════════════════════════════════════════════
+REWRITE RULES
+════════════════════════════════════════════════════════
+[P0] No negation framing ("wasn't just X", "bukan sekadar X melainkan Y")
+[P0] No robotic staccato — combine continuous actions into flowing sentences
+[P0] No smell descriptions. No banned intensity words (palpable, piercing, ethereal, etc.)
+[P0] No cinematic/poetic openers
 
-Rules:
-- Keep the same narrative meaning and character actions.
-- Style must be completely natural, flowing, easy to understand.
-- Absolutely NO poetic or cinematic metaphors, no landscape descriptions, or atmospheric flowery writing.
-- Avoid robotic fragmented sentence splits or repetitive staccato. Make continuous gestures and postures flow smoothly.
-- Apply anti-slop rules: no adverb stacking, no purple prose.
-- Match webnovel pacing: direct, kinetic, clear.
-- Output ONLY the rewritten passage. No labels, no explanation.`;
+[P1] Keep the same narrative meaning and character actions
+[P1] No adjective stacking on minor props
+[P1] Dialogue uses natural particles and contractions
+[P1] Paragraphs 1–3 sentences max
+
+[P2] Simple, direct vocabulary — prefer the shorter word
+[P2] No adverb stacking
+[P2] Natural, effortless reading flow
+
+OUTPUT: Return ONLY the rewritten passage. No labels. No explanation. No preamble.`;
 }

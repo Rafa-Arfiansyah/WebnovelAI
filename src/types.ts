@@ -78,6 +78,8 @@ export interface Character {
   firstAppearance?: number;
   relationships: Relationship[];
   tags: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Location {
@@ -89,6 +91,8 @@ export interface Location {
   notableFeatures: string[];
   firstAppearance?: number;
   tags: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Beat {

@@ -262,12 +262,12 @@ export default function SettingsPanel({
   };
 
   return (
-    <div className="space-y-6" id="settings-root">
+    <div className="space-y-5" id="settings-root">
       
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 text-left">
         
         {/* Left Section - Engine checks and Custom Writing Rules */}
-        <div className="lg:col-span-6 space-y-6">
+        <div className="lg:col-span-6 space-y-5">
           {/* Health Status check card */}
           <div className="bg-[#121212] border border-white/10 rounded-xl p-5 shadow-xl space-y-4">
             <div className="flex gap-2 items-center pb-2 border-b border-white/5">

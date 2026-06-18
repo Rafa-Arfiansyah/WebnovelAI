@@ -179,11 +179,11 @@ export default function ChapterGenerator({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" id="generator-root">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4" id="generator-root">
       
       {/* 1. Header Segment Ribbon (Sub-navbar) spanning full width */}
       <div className="lg:col-span-12">
-        <div className="bg-[#121212] border border-white/10 rounded-2xl p-4 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 shadow-xl mb-2">
+        <div className="bg-[#121212] border border-white/10 rounded-2xl p-3 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 shadow-xl mb-2">
           {/* Target manuscript chapter choice dropdown */}
           <div className="flex items-center gap-2.5">
             <span className="text-white/40 text-[10px] font-bold uppercase font-mono tracking-wider whitespace-nowrap">Chapter Target:</span>
@@ -205,7 +205,7 @@ export default function ChapterGenerator({
           <div className="flex border border-white/10 bg-[#0A0A0A] rounded-xl p-1 text-xs font-semibold gap-1">
             <button
               onClick={() => setActiveTab("draft")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "draft"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -216,7 +216,7 @@ export default function ChapterGenerator({
             </button>
             <button
               onClick={() => setActiveTab("settings")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "settings"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -227,7 +227,7 @@ export default function ChapterGenerator({
             </button>
             <button
               onClick={() => setActiveTab("context")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "context"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -245,7 +245,7 @@ export default function ChapterGenerator({
             </button>
             <button
               onClick={() => setActiveTab("mimic")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "mimic"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -544,7 +544,7 @@ export default function ChapterGenerator({
                           key={t}
                           type="button"
                           onClick={() => setToneAdjustment(t)}
-                          className={`flex-1 py-3 px-4 text-2xs sm:text-xs font-black uppercase rounded-lg cursor-pointer transition-all duration-200 text-center whitespace-nowrap border-0 ${
+                          className={`flex-1 py-2 px-3 text-2xs sm:text-xs font-black uppercase rounded-lg cursor-pointer transition-all duration-200 text-center whitespace-nowrap border-0 ${
                             toneAdjustment === t 
                               ? "bg-[#00FF88] text-black shadow-[0_4px_12px_rgba(0,255,136,0.25)] font-black" 
                               : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -566,7 +566,7 @@ export default function ChapterGenerator({
                         {wordCountTarget} words
                       </span>
                     </div>
-                    <div className="bg-[#0A0A0A] border border-white/10 rounded-xl p-4.5 flex items-center gap-6 shadow-inner">
+                    <div className="bg-[#0A0A0A] border border-white/10 rounded-xl p-3.5 flex items-center gap-6 shadow-inner">
                       <span className="text-[10px] text-white/30 font-mono">500w</span>
                       <input
                         type="range"
@@ -591,15 +591,15 @@ export default function ChapterGenerator({
                       placeholder="e.g., Focus on Althea Gray's extreme suspicion of Ryan's newly awakened core."
                       value={customInst}
                       onChange={(e) => setCustomInst(e.target.value)}
-                      className="w-full border border-white/10 bg-[#0A0A0A] text-white rounded-xl px-4 py-3 text-xs focus:ring-1 focus:outline-none focus:ring-[#00FF88] focus:border-[#00FF88] p-3 shadow-inner"
+                      className="w-full border border-white/10 bg-[#0A0A0A] text-white rounded-xl px-3.5 py-2.5 text-xs focus:ring-1 focus:outline-none focus:ring-[#00FF88] focus:border-[#00FF88] p-3 shadow-inner"
                     />
                   </div>
                 </div>
 
-                <div className="pt-4 flex justify-end">
+                <div className="pt-3 flex justify-end">
                   <button
                     onClick={() => setActiveTab("draft")}
-                    className="bg-[#00FF88] text-black font-black uppercase text-xs px-5 py-3 rounded-xl shadow-[0_0_12px_rgba(0,255,136,0.2)] flex items-center gap-1.5 cursor-pointer leading-tight border-0 transition"
+                    className="bg-[#00FF88] text-black font-black uppercase text-xs px-4 py-2.5 rounded-xl shadow-[0_0_12px_rgba(0,255,136,0.2)] flex items-center gap-1.5 cursor-pointer leading-tight border-0 transition"
                   >
                     <span>Proceed to draft Canvas</span>
                     <ArrowRight size={13} />
@@ -656,7 +656,7 @@ export default function ChapterGenerator({
                 </div>
 
                 {/* Lower Action bar */}
-                <div className="border-t border-white/5 p-4.5 bg-[#0D0D0D]/90 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div className="border-t border-white/5 p-3.5 bg-[#0D0D0D]/90 flex flex-col sm:flex-row justify-between items-center gap-4">
                   <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
                     {streamedContent ? (
                       <span>Generated Wordcount: <strong className="text-[#00FF88] font-bold">{streamedContent.replace(/<[^>]*>/g, " ").trim().split(/\s+/).length}</strong> / {wordCountTarget} words</span>
@@ -669,7 +669,7 @@ export default function ChapterGenerator({
                     <button
                       onClick={handleGenerate}
                       disabled={isGenerating}
-                      className="bg-[#00FF88] text-black font-black uppercase text-xs px-5 py-3 rounded-xl shadow-[0_0_15px_rgba(0,255,136,0.3)] hover:bg-[#00FF88]/90 flex items-center gap-1.5 cursor-pointer border-0 transition-all duration-300 disabled:opacity-50"
+                      className="bg-[#00FF88] text-black font-black uppercase text-xs px-4 py-2.5 rounded-xl shadow-[0_0_15px_rgba(0,255,136,0.3)] hover:bg-[#00FF88]/90 flex items-center gap-1.5 cursor-pointer border-0 transition-all duration-300 disabled:opacity-50"
                       id="btn-engage-stream"
                     >
                       {isGenerating ? <RefreshCw className="animate-spin text-black" size={14} /> : <Play size={14} />}
@@ -679,7 +679,7 @@ export default function ChapterGenerator({
                     {streamedContent && !isGenerating && (
                       <button
                         onClick={handleApplyDraft}
-                        className="bg-white text-black hover:bg-[#00FF88] hover:text-black font-black uppercase text-xs px-5 py-3 rounded-xl flex items-center gap-1.5 cursor-pointer border-0 transition-all duration-300"
+                        className="bg-white text-black hover:bg-[#00FF88] hover:text-black font-black uppercase text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 cursor-pointer border-0 transition-all duration-300"
                         id="btn-apply-draft"
                       >
                         <span>Apply & Open Editor</span>

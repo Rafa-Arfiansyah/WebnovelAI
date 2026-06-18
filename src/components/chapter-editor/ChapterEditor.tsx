@@ -349,11 +349,11 @@ export default function ChapterEditor({
     : [];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" id="editor-root" onMouseUp={handleTextSelection}>
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4" id="editor-root" onMouseUp={handleTextSelection}>
       
       {/* 1. Header Segment Ribbon (Sub-navbar) spanning full width */}
       <div className="lg:col-span-12">
-        <div className="bg-[#121212] border border-white/10 rounded-2xl p-4 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 shadow-xl">
+        <div className="bg-[#121212] border border-white/10 rounded-2xl p-3 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 shadow-xl">
           <div className="text-left flex items-center gap-3">
             <div className="p-2.5 bg-[#00FF88]/10 rounded-xl border border-[#00FF88]/15">
               <Edit size={16} className="text-[#00FF88]" />
@@ -370,7 +370,7 @@ export default function ChapterEditor({
           <div className="flex flex-wrap border border-white/10 bg-[#0A0A0A] rounded-xl p-1 text-xs font-semibold gap-1">
             <button
               onClick={() => setActiveTab("write")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
                 activeTab === "write"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -381,7 +381,7 @@ export default function ChapterEditor({
             </button>
             <button
               onClick={() => setActiveTab("audit")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
                 activeTab === "audit"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -392,7 +392,7 @@ export default function ChapterEditor({
             </button>
             <button
               onClick={() => setActiveTab("issues")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
                 activeTab === "issues"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -410,7 +410,7 @@ export default function ChapterEditor({
             </button>
             <button
               onClick={() => setActiveTab("vocabulary")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
                 activeTab === "vocabulary"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
@@ -428,7 +428,7 @@ export default function ChapterEditor({
             </button>
             <button
               onClick={() => setActiveTab("snapshots")}
-              className={`px-4 py-2 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
+              className={`px-3 py-1.5 font-bold uppercase rounded-lg transition-all duration-200 flex items-center gap-1.5 cursor-pointer border-0 ${
                 activeTab === "snapshots"
                   ? "bg-[#00FF88] text-black font-black shadow-[0_2px_8px_rgba(0,255,136,0.15)]"
                   : "text-white/50 hover:bg-white/5 hover:text-white"
