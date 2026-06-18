@@ -538,12 +538,19 @@ STRICT ANTI-SLOP STRUCTURAL RULES (CRITICAL PROMPT DIRECTIVES):
 3. Underpinning Ground Truth: Strictly respect the novel's main story premise/synopsis. Integrate character goals, constraints, and limitations rather than giving them easy solutions.
 4. No Shadow-Larping Dialogue Clichés: Avoid circular, vague dialogue and repetitive pacing structures. All characters must speak with clear, distinct intentions and logical motivation.
 5. High Contrast Tension Levels: Vary absolute tension elements (e.g., Chapter 1: Medium, Chapter 2: High, Chapter 3: Low-Pressure, Chapter 4: High-Action, Chapter 5: Climax).
-6. Strictly map the provided Character IDs and Location IDs in your output where appropriate so they align with the local database structure.
-7. Cliffhangers & Hooks: Every chapter outline must be planned to start with a high-impact hook beat (action, dialogue, or reaction, avoiding slow summaries) and end with a compelling cliffhanger beat that leaves critical stakes unresolved to make opening the next chapter irresistible.
-8. [BEAT RULE] Every climax beat (beats marked with tension "Climax") MUST include one of:
-   - A physical cost (gear damaged, physical injury, or resources fully depleted)
-   - A wrong first instinct that fails dramatically before the correct move is made
-   - An unresolved problem that survives the victory;`;
+6. MANDATORY BEAT CONSTRAINTS — Every climax or power-use beat MUST include one of:
+   - A physical cost: gear damaged, injury, resource depleted, power backfires
+   - A wrong first instinct: character tries something, it fails, then pivots
+   - An unresolved problem: new threat emerges DURING or immediately AFTER the win
+   
+   NEVER generate a beat where protagonist activates power → it works → scene ends clean.
+   ❌ "Ryan activates Overdrive and defeats the Stalker"
+   ✅ "Ryan activates Overdrive accidentally — arm locks, can't control output, beast gets thrown back but Ryan collapses from feedback. Wins by accident. Arm still burning when he runs."
+7. Beat descriptions must be SPECIFIC enough to constrain the writer:
+   ❌ "Ryan uses his new power to escape"
+   ✅ "Ryan's gauntlet locks at 40% charge mid-fight — he can't fire again, has to use the Stalker's own momentum to throw it into the wall. Escapes with a dislocated shoulder."
+8. Strictly map the provided Character IDs and Location IDs in your output where appropriate so they align with the local database structure.
+9. Cliffhangers & Hooks: Every chapter outline must be planned to start with a high-impact hook beat (action, dialogue, or reaction, avoiding slow summaries) and end with a compelling cliffhanger beat that leaves critical stakes unresolved to make opening the next chapter irresistible.`;
 
     const response = await generateContentWithFallback(ai, {
       model: "gemini-3.5-flash",

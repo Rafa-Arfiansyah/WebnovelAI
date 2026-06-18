@@ -223,6 +223,14 @@ Note: Reader mobile scroll cepet. Fight scene yang panjang dan detail justru bik
 ▸ Energy/power theme words (${getEnergyWordClusterString()}) — max ${ENERGY_WORD_MAX_PER_CHAPTER} appearances total each per chapter block (~1500 words). After the ${ENERGY_WORD_MAX_PER_CHAPTER}rd use, SWITCH to a different word or restructure the sentence to avoid it.
 
 ────────────────────────────────────────────────────────
+[P1-H] NO CLEAN WINS
+────────────────────────────────────────────────────────
+▸ Setiap victory atau power activation HARUS punya visible cost atau immediate new problem.
+▸ Protagonist boleh menang, tapi tidak boleh keluar dari scene dalam kondisi sama seperti masuk.
+❌ Protagonist activates power → works perfectly → walks away composed
+✅ Protagonist activates power → something goes wrong OR costs something → barely gets away with feedback, gear damage, or emerging threat
+
+────────────────────────────────────────────────────────
 [P2-A] VOCABULARY — SIMPLE, DIRECT, MODERN
 ────────────────────────────────────────────────────────
 ▸ Prefer the simpler word. "red" over "crimson" unless crimson is specifically right. "dark" over "shadow-drenched."
