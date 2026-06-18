@@ -67,12 +67,11 @@ interface GenerateContentParams {
 
 
 async function generateContentWithFallback(ai: any, params: GenerateContentParams) {
-  const originalModel = params.model || "gemini-3.5-flash";
+  const originalModel = params.model || "gemini-2.5-flash";
   const modelOptions = [
     originalModel,
-    "gemini-3.1-flash-lite",
-    "gemini-flash-latest",
-    "gemini-2.5-flash"
+    "gemini-2.0-flash",
+    "gemini-1.5-flash"
   ];
 
   const modelsToTry = Array.from(new Set(modelOptions));
@@ -124,12 +123,11 @@ async function generateContentWithFallback(ai: any, params: GenerateContentParam
 }
 
 async function generateContentStreamWithFallback(ai: any, params: GenerateContentParams) {
-  const originalModel = params.model || "gemini-3.5-flash";
+  const originalModel = params.model || "gemini-2.5-flash";
   const modelOptions = [
     originalModel,
-    "gemini-3.1-flash-lite",
-    "gemini-flash-latest",
-    "gemini-2.5-flash"
+    "gemini-2.0-flash",
+    "gemini-1.5-flash"
   ];
 
   const modelsToTry = Array.from(new Set(modelOptions));
@@ -236,11 +234,11 @@ ${BEAT_EXPANSION_ENFORCER}`;
       : coreInstructions;
 
     const streamResponse = await generateContentStreamWithFallback(ai, {
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         systemInstruction: activeSystemInstruction,
-        temperature: 0.75,
+        temperature: 0.45,
       },
     });
 
@@ -289,7 +287,7 @@ Hard rules:
 - Return a highly accurate JSON response matching the schema.`;
 
     const response = await generateContentWithFallback(ai, {
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: analysisPrompt,
       config: {
         systemInstruction,
@@ -383,7 +381,7 @@ app.post("/api/analyze-vocab", async (req, res) => {
 Return a very precise JSON response matching the requested schema. Ensure that "originalText" matches a physical substring from the manuscript EXACTLY.`;
 
     const response = await generateContentWithFallback(ai, {
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: vocabPrompt,
       config: {
         systemInstruction,
@@ -456,11 +454,11 @@ Return ONLY the new rewritten passage, with no introductory text, no conversatio
 Keep the changes concise and tailored. Never make the rewrite longer or more theatrical than the original.`;
 
     const response = await generateContentWithFallback(ai, {
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: polishPrompt,
       config: {
         systemInstruction: polishSystemInstruction,
-        temperature: 0.7,
+        temperature: 0.35,
       },
     });
 
@@ -546,12 +544,12 @@ STRICT STRUCTURAL RULES:
 ${BEAT_EXPANSION_ENFORCER}`;
 
     const response = await generateContentWithFallback(ai, {
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: timelinePrompt,
       config: {
         systemInstruction,
         responseMimeType: "application/json",
-        temperature: 0.8,
+        temperature: 0.55,
         responseSchema: {
           type: Type.OBJECT,
           properties: {
@@ -632,7 +630,7 @@ Sylvia, Nova, Neo, Aria, Arya.
 Generate names that are realistic, setting-appropriate, and grounded.`;
 
     const response = await generateContentWithFallback(ai, {
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         systemInstruction: "You are a world-class novel director and character designer. Generate a character profile as compliant JSON. Strictly avoid cliché AI fantasy names. Make names grounded and unique.",
@@ -690,7 +688,7 @@ Premise: "${synopsis || "No synopsis available."}"\n`;
     prompt += `Make the name, visual features, and rules highly original. Avoid standard copy-paste settings.`;
 
     const response = await generateContentWithFallback(ai, {
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         systemInstruction: "You are a master worldbuilder. Generate a spectacular location profile as compliant JSON.",

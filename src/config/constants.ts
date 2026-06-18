@@ -1,7 +1,7 @@
 // src/config/constants.ts
 
 // ─── AI Model Configuration ───────────────────
-export const AI_MODEL = "gemini-3.5-flash";
+export const AI_MODEL = "gemini-2.5-flash";
 
 // ─── Chapter Editor Tabs ───────────────────────
 export const CHAPTER_EDITOR_TABS = {

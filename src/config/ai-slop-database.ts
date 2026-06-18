@@ -277,7 +277,7 @@ export function getCinematicVocabString(): string {
 
 /** Returns a bullet-list string of intensity words for prompt injection. */
 export function getBannedIntensityString(): string {
-  return BANNED_INTENSITY_WORDS.slice(0, 10).map(w => `"${w}"`).join(", ");
+  return BANNED_INTENSITY_WORDS.map(w => `"${w}"`).join(", ");
 }
 
 /** Returns the stock impact phrases as a bullet list for prompt injection. */
