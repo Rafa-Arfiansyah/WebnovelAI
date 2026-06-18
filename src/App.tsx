@@ -94,13 +94,39 @@ export default function App() {
     setProjects(list);
 
     // Default to first active project if none selected, or if selected project no longer exists
+    let activeProjId = selectedProjectId;
     if (list.length > 0) {
       const exists = list.some(p => p.id === selectedProjectId);
       if (!selectedProjectId || !exists) {
-        setSelectedProjectId(list[0].id);
+        activeProjId = list[0].id;
+        setSelectedProjectId(activeProjId);
       }
     } else {
+      activeProjId = null;
       setSelectedProjectId(null);
+    }
+
+    // Refresh child items for the active project to reflect sync updates
+    if (activeProjId) {
+      const activeChapters = dbStore.getChapters(activeProjId);
+      setChapters(activeChapters);
+      setCharacters(dbStore.getCharacters(activeProjId));
+      setLocations(dbStore.getLocations(activeProjId));
+      
+      // Update selected chapter only if it's no longer valid in the refreshed list
+      if (activeChapters.length > 0) {
+        const chapExists = activeChapters.some(c => c.id === selectedChapterId);
+        if (!selectedChapterId || !chapExists) {
+          setSelectedChapterId(activeChapters[0].id);
+        }
+      } else {
+        setSelectedChapterId(null);
+      }
+    } else {
+      setChapters([]);
+      setCharacters([]);
+      setLocations([]);
+      setSelectedChapterId(null);
     }
   };
 
@@ -112,6 +138,7 @@ export default function App() {
       setCharacters(dbStore.getCharacters(selectedProjectId));
       setLocations(dbStore.getLocations(selectedProjectId));
       
+      // When explicitly switching projects, default to the first chapter of the new project
       if (activeChapters.length > 0) {
         setSelectedChapterId(activeChapters[0].id);
       } else {
