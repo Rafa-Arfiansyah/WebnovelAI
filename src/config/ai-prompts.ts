@@ -63,6 +63,11 @@ export const GEMINI_HARD_STOPS = `
 [STOP-8] NEVER use stock physical impact/injury safety template phrases:
   ${getStockImpactString()}
   Replace with specific body part sensations and physical gear actions.
+
+[STOP-9] NEVER describe a setting element unless the character physically interacts with it OR it creates immediate danger.
+  If it can be deleted without changing the scene → delete it.
+  ❌ "metal flooring" / "littered corridor" / "concrete walls"
+  ✅ Only describe what the character touches, trips on, hides behind, or gets hit by.
 `;
 
 // ─────────────────────────────────────────────
