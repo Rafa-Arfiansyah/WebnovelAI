@@ -32,12 +32,13 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
   const [loading, setLoading] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [syncStatus, setSyncStatus] = useState<"idle" | "synced" | "error">("idle");
+  const [isOnline, setIsOnline] = useState(typeof navigator !== "undefined" ? navigator.onLine : true);
 
-  // Track authentication state changes
+  // Track authentication state changes and online/offline status
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-      if (currentUser) {
+      if (currentUser && navigator.onLine) {
         // Automatically load and sync their manuscript drafts when they login
         await syncDataFromCloud(currentUser.uid);
       } else {
@@ -45,7 +46,25 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
         onRefreshAllData();
       }
     });
-    return () => unsubscribe();
+
+    const handleOnline = () => {
+      setIsOnline(true);
+      if (auth.currentUser) {
+        syncDataFromCloud(auth.currentUser.uid);
+      }
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      unsubscribe();
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
   }, []);
 
   const syncDataFromCloud = async (userId: string) => {
@@ -167,15 +186,26 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
           </div>
 
           <div className="flex items-center justify-between text-[11px] border-t border-white/5 pt-2">
-            <div className="flex items-center gap-1.5 text-[#00FF88]">
-              {syncing ? (
-                <RefreshCw size={12} className="animate-spin text-emerald-400" />
+            <div className="flex items-center gap-1.5">
+              {!isOnline ? (
+                <>
+                  <ShieldAlert size={12} className="text-amber-400 animate-pulse" />
+                  <span className="font-mono text-[10px] uppercase font-bold text-amber-400/90">
+                    Offline (Lokal)
+                  </span>
+                </>
               ) : (
-                <Cloud size={12} className="text-emerald-400" />
+                <>
+                  {syncing ? (
+                    <RefreshCw size={12} className="animate-spin text-[#00FF88]" />
+                  ) : (
+                    <Cloud size={12} className="text-emerald-400" />
+                  )}
+                  <span className="font-mono text-[10px] uppercase font-bold text-white/60">
+                    {syncing ? "Sinkronisasi..." : syncStatus === "synced" ? "Tersimpan" : "Sinkron"}
+                  </span>
+                </>
               )}
-              <span className="font-mono text-[10px] uppercase font-bold text-white/60">
-                {syncing ? "Sinkronisasi..." : syncStatus === "synced" ? "Tersimpan" : "Sinkron"}
-              </span>
             </div>
 
             <button
@@ -241,6 +271,16 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
                 />
               </div>
 
+              {!isOnline && (
+                <div className="bg-amber-500/10 border border-amber-500/20 p-3 flex gap-2 items-start text-xs text-amber-400 rounded-lg">
+                  <ShieldAlert size={16} className="shrink-0 mt-0.5 animate-pulse text-amber-400" />
+                  <div>
+                    <strong className="block font-bold uppercase tracking-wider text-[10px] mb-0.5">Offline Mode</strong>
+                    <span>Koneksi internet terputus. Silakan hubungkan kembali internet Anda untuk melakukan sinkronisasi cloud. Menulis lokal tetap aktif.</span>
+                  </div>
+                </div>
+              )}
+
               {error && (
                 <div className="bg-rose-500/10 border border-rose-500/25 p-3 rounded-lg flex gap-2 items-start text-xs text-rose-400 font-medium">
                   <AlertCircle size={15} className="shrink-0 mt-0.5" />
@@ -251,8 +291,8 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
               {/* Toggle action button */}
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full py-3 bg-[#00FF88] hover:bg-[#00E577] disabled:bg-[#00FF88]/50 text-black font-black uppercase text-xs tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#00FF88]/20"
+                disabled={loading || !isOnline}
+                className="w-full py-3 bg-[#00FF88] hover:bg-[#00E577] disabled:bg-white/5 disabled:text-white/30 disabled:border-white/5 disabled:shadow-none disabled:cursor-not-allowed text-black font-black uppercase text-xs tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#00FF88]/20"
                 id="btn-submit-auth"
               >
                 {loading ? (
@@ -276,8 +316,8 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
               <button
                 type="button"
                 onClick={handleGoogleSignIn}
-                disabled={loading}
-                className="w-full py-3 bg-white/5 hover:bg-white/10 hover:text-[#00FF88] text-white font-bold text-xs uppercase tracking-wider rounded-lg border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer"
+                disabled={loading || !isOnline}
+                className="w-full py-3 bg-white/5 hover:bg-white/10 hover:text-[#00FF88] disabled:bg-white/5 disabled:text-white/30 disabled:border-white/5 disabled:cursor-not-allowed text-white font-bold text-xs uppercase tracking-wider rounded-lg border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer"
                 id="btn-google-auth"
               >
                 <Chrome size={14} className="animate-pulse" />

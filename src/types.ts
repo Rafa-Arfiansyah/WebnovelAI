@@ -40,7 +40,13 @@ export enum SlopCategory {
   NegationPattern = "NegationPattern",
   DialogueFormulaic = "DialogueFormulaic",
   ClicheIntensity = "ClicheIntensity",
-  PropOverdescription = "PropOverdescription"
+  PropOverdescription = "PropOverdescription",
+  StructurePattern = "StructurePattern",   // Predictable A→D→E→D sentence structure
+  CinematicVocab = "CinematicVocab",       // Generic sci-fi: shimmered, flickered, pulsed, ethereal
+  HeroTemplate = "HeroTemplate",           // Always-calm, always-correct protagonist
+  WordRepetition = "WordRepetition",       // Energy/power/core word cluster overuse
+  ImpactTemplate = "ImpactTemplate",       // Stock physical injury/pain descriptions
+  VerbosityFiller = "VerbosityFiller"      // Padding, redundant restatement, filler that earns no place
 }
 
 export enum SlopSeverity {

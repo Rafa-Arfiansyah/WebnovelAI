@@ -69,6 +69,18 @@ const ELITE_PRESETS = [
       "Batasi dump status angka (stats); tampilkan hanya status situasi yang relevan.",
       "Hindari menjelaskan mekanisme sihir berlebihan; ganti dengan deskripsi kecepatan dan dampak kinetis langsung."
     ]
+  },
+  {
+    id: "human_authenticity",
+    name: "Human Authenticity (Anti-AI Pattern Detection)",
+    description: "Breaks the 5 most common AI writing fingerprints: predictable sentence structure, generic cinematic vocab, emotionally perfect protagonists, theme-word repetition, and stock pain descriptions.",
+    rules: [
+      "RANDOMIZE SENTENCE STRUCTURE: Avoid predictable action→description→explanation→dialogue chains. Break the sequence unexpectedly — jump focus, add an imperfect or incomplete observation mid-scene, or lead with dialogue before the action. Real prose is not clean or formulaic.",
+      "BAN GENERIC SCI-FI/FANTASY CINEMATIC VOCAB: NEVER use these overused AI descriptor words: 'shimmered', 'warped/warping', 'jagged shapes', 'flickered', 'pulsed', 'corrupted', 'ambient energy', 'ethereal', 'cascading'. Replace with concrete, grounded, specific physical detail instead.",
+      "EMOTIONALLY IMPERFECT PROTAGONIST: The main character must NOT always be calm, calculating, and correct. Inject realistic imperfection — a miscalculation, brief panic, shallow breath, intrusive negative thought, or wrong first instinct — before they recover. Avoid the 'hero template' of steady voice and perfect situational reads.",
+      "LIMIT ENERGY/POWER WORD REPETITION: In any ~1500-word chapter block, cap theme-cluster words (e.g. 'glowing', 'energy', 'core', 'crystal', 'system', 'power') to a maximum of 3 appearances each. Rotate with specific synonyms or reframe the sentence to avoid the repeated word.",
+      "SPECIFIC PHYSICAL IMPACT DESCRIPTION: Avoid generic action-pain templates like 'the impact knocked the wind out of him' or 'his ribs creaking under the strain'. Replace with body-part-specific, character-personal detail: e.g. 'His left shoulder went numb past the elbow', 'Something inside his vest cracked near the collarbone'. Make physical pain feel particular to THIS character's body, not a stock template."
+    ]
   }
 ];
 

@@ -32,7 +32,12 @@ function seedDatabase() {
     antiSlopRules: [
       "Keep game interface descriptions punchy and minimal",
       "Ensure Ryan's monologue highlights tactical planning over unearned arrogance.",
-      "Avoid wordy stat-dumps blockades."
+      "Avoid wordy stat-dumps blockades.",
+      "RANDOMIZE SENTENCE STRUCTURE: Avoid predictable action→description→explanation→dialogue chains. Break the sequence unexpectedly — jump focus, add an imperfect or incomplete observation mid-scene, or lead with dialogue before the action. Real prose is not clean.",
+      "BAN GENERIC SCI-FI CINEMATIC VOCAB: NEVER use the following overused AI words in description: 'shimmered', 'warped/warping', 'jagged', 'flickered', 'pulsed', 'corrupted', 'ambient energy', 'ethereal', 'cascading'. Replace with concrete, specific, grounded physical detail.",
+      "EMOTIONALLY IMPERFECT PROTAGONIST: The hero must NOT always be calm, calculating, and correct. Inject realistic imperfection — a miscalculation, brief panic, shallow breath, intrusive negative thought, or wrong first instinct — before recovering. Avoid the 'hero template' of steady voice + perfect read of the situation.",
+      "LIMIT ENERGY/POWER WORD REPETITION: In any chapter block (~1500 words), cap theme-cluster words (e.g. 'glowing', 'energy', 'core', 'crystal', 'system', 'power', 'matrix') to no more than 3 appearances each. Rotate with synonyms or reframe the sentence to avoid the word entirely.",
+      "SPECIFIC PHYSICAL INJURY/IMPACT DESCRIPTION: Avoid template action-pain phrases like 'the impact knocked the wind out of him' or 'ribs creaking under the strain'. Replace with body-part-specific, character-personal detail: e.g. 'His left shoulder went numb past the elbow', 'Something inside his vest cracked near the collarbone'. Make it feel particular to THIS character's body."
     ],
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5).toISOString(), // 5 days ago
     updatedAt: new Date().toISOString(),
@@ -270,7 +275,12 @@ export const dbStore = {
         "CONCISE BACKGROUND OBJECTS: Keep descriptions of minor background items simple and focused. Do not over-decorate non-essential scenery.",
         "NATURAL DIALOGUE FLOW: Use tagless dialogue when the speaker is clear, and blend speech with actions without using repetitive tag formulas. Use natural spoken register particles (e.g. sih, kok, kan, dong, ya, aja, deh).",
         "ACTIVE SENTENCE STRUCTURES: Prioritize active and positive descriptions. Normal negations are fine to use naturally, but focus on keeping the pace dynamic.",
-        "ABSOLUTE BAN ON SMELLS & BANNED WORDS: Never describe smells, odors, or olfactory atmospheres under any circumstances. Strictly ban the word 'ozone' (or 'ozon')."
+        "ABSOLUTE BAN ON SMELLS & BANNED WORDS: Never describe smells, odors, or olfactory atmospheres under any circumstances. Strictly ban the word 'ozone' (or 'ozon').",
+        "RANDOMIZE SENTENCE STRUCTURE: Avoid predictable action→description→explanation→dialogue chains. Break the sequence unexpectedly — jump focus, add an imperfect or incomplete observation mid-scene, or lead with dialogue before the action. Real prose is not clean or formulaic.",
+        "BAN GENERIC SCI-FI/FANTASY CINEMATIC VOCAB: NEVER use these overused AI descriptor words: 'shimmered', 'warped/warping', 'jagged shapes', 'flickered', 'pulsed', 'corrupted', 'ambient energy', 'ethereal', 'cascading'. Replace with concrete, grounded, specific physical detail instead.",
+        "EMOTIONALLY IMPERFECT PROTAGONIST: The main character must NOT always be calm, calculating, and correct. Inject realistic imperfection — a miscalculation, brief panic, shallow breath, intrusive negative thought, or wrong first instinct — before they recover. Avoid the 'hero template' of steady voice and perfect situational reads.",
+        "LIMIT ENERGY/POWER WORD REPETITION: In any ~1500-word chapter block, cap theme-cluster words (e.g. 'glowing', 'energy', 'core', 'crystal', 'system', 'power') to a maximum of 3 appearances each. Rotate with specific synonyms or reframe the sentence to avoid the repeated word.",
+        "SPECIFIC PHYSICAL IMPACT DESCRIPTION: Avoid generic action-pain templates like 'the impact knocked the wind out of him' or 'his ribs creaking under the strain'. Replace with body-part-specific, character-personal detail: e.g. 'His left shoulder went numb past the elbow', 'Something inside his vest cracked near the collarbone'. Make physical pain feel particular to THIS character's body, not a stock template."
       ],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

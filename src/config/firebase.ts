@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, setLogLevel } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCzH-ezTBLLveQ74yMjQ08o3cxSH0kMK8Q",
@@ -18,5 +18,15 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication
 export const auth = getAuth(app);
 
-// Initialize Cloud Firestore
-export const db = getFirestore(app);
+// Initialize Cloud Firestore with offline persistence
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager()
+  })
+});
+
+// Suppress non-critical WebChannel 'transport errored' WARN logs.
+// These are transient network-drop warnings that Firestore auto-recovers from.
+// Real errors (e.g., permission denied, quota exceeded) will still appear.
+setLogLevel("error");
+

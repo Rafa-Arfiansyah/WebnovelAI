@@ -104,7 +104,6 @@ export default function ChapterGenerator({
       precedingChapters,
       wordCountTarget,
       toneAdjustment,
-      activePreset,
       customInst,
       projectRules: dbStore.getProjects().find(p => p.id === projectId)?.antiSlopRules || [],
       mimicStyleText

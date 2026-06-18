@@ -3,6 +3,24 @@ import path from "path";
 import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
+import {
+  getCinematicVocabString,
+  getBannedIntensityString,
+  getStockImpactString,
+  getEnergyWordClusterString,
+  getScoringPenaltyBlock,
+  SUGGESTION_QUALITY_RULES,
+  STRUCTURAL_PATTERN_RULES,
+  AI_BUZZWORDS,
+  ENERGY_WORD_MAX_PER_CHAPTER,
+} from "./src/config/ai-slop-database";
+import {
+  GEMINI_HARD_STOPS,
+  BASE_PROSE_RULES,
+  buildSlopAnalysisPrompt,
+  buildVocabAnalysisPrompt,
+  buildPolishPassagePrompt,
+} from "./src/config/ai-prompts";
 
 dotenv.config();
 
@@ -200,55 +218,20 @@ app.post("/api/generate-stream", async (req, res) => {
 
     const finalSystemInstruction = `You are a top, elite professional book and webnovel.com author. Your signature writing style is exceptionally engaging, clean, and immediately addictive for mobile phone readers. Your stories have high dialogue density, realistic human voice, and absolute clarity.
 
-=========================================
-WRITING DIRECTIVES FOR NATURAL PROSE:
+${GEMINI_HARD_STOPS}
 
-1. WEBNOVEL PARAGRAPH FORMATTING:
-- Keep paragraphs concise, typically between 1 to 4 sentences, to ensure easy scrolling on mobile screens.
-- Vary paragraph lengths naturally. Do not artificially split continuous actions into choppy staccato sentences.
+${BASE_PROSE_RULES}`;
 
-2. NO "BERTELE-TELE" & NO OVER-DESCRIPTION:
-- Keep the narrative moving. Avoid filler scenes and tedious physical step-by-step descriptions (like describing every single rung of a ladder).
-- Do not stack adjectives for minor scenery objects (e.g. avoid "damp concrete walls", "narrow service hatch"). Keep description simple and focused.
-
-3. STRICT BAN ON CONTRAST CLICHÉS (NO "NOT JUST X, BUT Y"):
-- Strictly forbid the lazy AI contrast pattern: "Not just [X], it was [Y]..." or "It wasn't merely [X], it was [Y]..."
-- Example of BANNED: "That wasn't just a bet. It was a guarantee." or "The payments weren't missing. They were being diverted."
-- State these directly and actively: "It was a guarantee." or "Someone was diverting the payments."
-
-4. FLUID DIALOGUE:
-- ALWAYS wrap all spoken dialogue in standard double quotation marks ("..."). Never omit quotation marks for speech.
-- Avoid repetitive dialogue tag patterns on consecutive lines.
-- Let conversation flow dynamically and casually. Use tagless dialogue where characters speak directly back and forth.
-- Use natural spoken contractions and conversational particles (English: don't, can't, yeah, hey; Indonesian: sih, kok, kan, dong, lho, ya, aja, deh, tuh) to make conversations feel alive and human.
-- If a character is alone, let them talk to themselves or recall verbal memories to maintain natural dialogue presence.
-
-5. ENGAGING SCENE ENTRY:
-- Prefer starting scenes and chapters with immediate action, a line of dialogue, or direct character thoughts, weaving in the environment naturally as the scene progresses.
-
-6. MODERN AND COHESIVE VOCABULARY:
-- Avoid overused writing clichés (like "palpable", "piercing", "heart hammered", "eyes widened", "heavy silence") and keep the vocabulary simple, direct, and active.
-
-7. TARGET LENGTH AND DEPTH (NO FILLER EXPOSITION):
-- To hit the target length (e.g. 1000-1500+ words) without adding boring scenery decoration or purple prose:
-  * EXPAND DIALOGUE: Write longer conversation threads where characters discuss tactics, voice their worries, or argue about options.
-  * DEEPEN INTERNAL MONOLOGUE: Let the POV character think thoroughly, analyze their surroundings, plan their next moves, and reflect on their past, constraints, or motivations.
-  * PACE THE ACTIONS: Break down actions into sequential beats with internal reactions. Show the character's immediate thoughts and physical adjustments during tense moments instead of summarizing or rushing the scene.
-  * Avoid fast-forwarding or skipping sections of a scene. Fully flesh out every beat in the outline.
-
-8. NO SMELL DESCRIPTIONS & BANNED WORDS ("OZONE"):
-- ABSOLUTE BAN ON SMELLS: Under no circumstances describe smells, odors, scents, perfume, fragrance, or general olfactory atmospheres.
-- BANNED WORD "OZONE": Never use the word "ozone" (or any variations like "bau ozon") to describe the air, power sources, magic, or lightning.
-=========================================`;
-
-    const activeSystemInstruction = systemInstruction || finalSystemInstruction;
+    const activeSystemInstruction = systemInstruction
+      ? `${GEMINI_HARD_STOPS}\n\n${systemInstruction}`
+      : finalSystemInstruction;
 
     const streamResponse = await generateContentStreamWithFallback(ai, {
       model: "gemini-3.5-flash",
       contents: prompt,
       config: {
         systemInstruction: activeSystemInstruction,
-        temperature: 0.85,
+        temperature: 0.75,
       },
     });
 
@@ -283,39 +266,22 @@ app.post("/api/analyze-slop", async (req, res) => {
   try {
     const ai = getAIForRequest(req);
     
-    const analysisPrompt = `You are an expert webnovel editor, stylistic polish master, and aggressive "anti-slop" writing coach.
-Analyze the following raw webnovel chapter content for "AI slop" style markers, poor pacing, cliches, or prose errors. 
+    // Utilize the prompt builder function imported from ai-prompts.ts
+    const analysisPrompt = buildSlopAnalysisPrompt(content, "");
 
-STRICT AI SLOP SIGNATURE MARKERS TO FLAG AND REJECT:
-1. AI Buzzword, Pretentious Vocabulary, or Filler Fatigue:
-   - Words like: "delve", "tapestry", "gaze/orbs", "testament", "intricate", "beacon", "dangerous dance", "complex web", "multifaceted", "clandestine", "symphony of", "whispering secrets", "crescendo", "pivotal", "catalyst", "ultimate", "not only... but also", "a sense of...".
-   - Overly theatrical, overly dramatic, or self-consciously "edgy" vocabulary where standard words work better (e.g. using anatomical exaggeration like "blade to his throat" when "blade to his neck" is more natural and grounded, or using verbs like "skewered/slit/groaned" excessively to simulate drama).
-2. Wordy "Not X, just Y" / "Not X, but Y" Contrast Clichés:
-   - Phrases matching: "Not [emotion], but [emotion]..." (e.g. "Not anger, but fear...", "It wasn't a warning, just an instruction...", " Bukan kemarahan, melainkan..."). These are classic AI filler markers that delay the actual description. Flag them aggressively and rewrite them to be direct and active.
-3. Repetitive Introductory Structures:
-   - Beginning multiple sentences with: "With a [adjective] [noun], he/she [verb]..." (e.g., "With a soft sigh, he turned...").
-   - Opening too many sentences with participles: "Glancing/Nodding/Sighing, they...".
-4. Over-described Smell and Sensory Trivia (Bertele-tele):
-   - Over-describing non-essential details like background smells, air temperatures, or minute physical orientations in a verbose, artificial manner. Flag lines that beat around the bush ("bertele-tele") rather than keeping it simple, active, and direct.
-5. "Designed" / Overly Functional Dialogue:
-   - Dialogue that sounds too clinical, efficient, perfect, or overly designed (e.g., cool movie-trailer quotes like "Ten seconds is plenty"). Real human dialogue is messy, spontaneous, has interruptions, trailing thoughts, stuttering, informal pacing, random vocal habits, or character leaks. Flag dialogue that feels too perfectly stage-managed.
-6. Telling Instead of Showing (Exposition-heavy text):
-   - Highlighting when a character's state, stress, or tension is summarized by the narrator instead of shown through immediate physical action, sensory perception, or clear choice.
-7. Weak Passive Auxiliary Verbs:
-   - "began to walk", "was starting to feel", "couldn't help but feel", "there was a sense of..." - change these to active, sensory details.
-8. Shadow-Larping Narrative Wrapups:
-   - Generic "only time would tell" or "this was just the beginning of what was to come" final clauses that lack substance.
+    const systemInstruction = `You are an aggressive AI-writing detector. Your job is NOT to evaluate literary quality — it is to forensically identify whether this text was written by an AI.
 
-Analyze the content rigorously. Ensure the "originalText" of any flagged issues matches the substring from the chapter content EXACTLY (character for character, down to quotes/punctuation). Provide EXACTLY ONE highly polished, natural, human-sounding, and direct rewrite suggestion. Avoid providing multiple options; give only the single best way to simplify and state the prose actively. Keep the suggestions array filled with exactly 1 string element.
+KEY PRINCIPLE: Clean, grammatically correct prose is the #1 hallmark of AI writing. A human author makes small imperfect choices. An AI produces smooth, logically structured, well-formatted output. Treat smoothness itself as a suspicious signal.
 
-Raw Content:
-"""
-${content}
-"""`;
-
-    const systemInstruction = `You are a master, high-end editorial consultant specializing in serial webnovels (Royal Road, Webnovel.com).
-Your goal is to purge AI writing style clichés: repetitive sentence openings, weak passive voice, information dumps, and safe, generic filler phrases like 'delve' or 'shiver ran down'.
-You must return a highly accurate JSON response matching the requested schema. Ensure that "originalText" in issues matches EXACTLY a physical substring from the content, so the UI can highlight and replace it without crashing.`;
+Hard rules:
+- Score the text on the SLOP INDEX (0-100), where 0 is perfect human and 100 is pure AI slop.
+- Apply positive score additions to the Slop Index for every AI fingerprint found (see calibration rules in the prompt).
+- Produce SPECIFIC, CONCRETE issue flags with EXACT substring matches — not vague generic advice.
+- Every suggestion must be a specific rewrite of the EXACT flagged text, not generic editorial advice.
+- NEVER write a suggestion that is longer, more theatrical, or more descriptive than the original. A bloated poetic rewrite of a short original sentence is ITSELF AI slop and is forbidden.
+- NEVER suggest replacing punchy short sentences (under 12 words) with purple prose.
+- Flag the hero-template protagonist aggressively: any moment where the POV character is simultaneously calm + analytically correct + producing a cool line is an AI fingerprint.
+- Return a highly accurate JSON response matching the schema.`;
 
     const response = await generateContentWithFallback(ai, {
       model: "gemini-3.5-flash",
@@ -329,19 +295,28 @@ You must return a highly accurate JSON response matching the requested schema. E
           properties: {
             overallScore: { 
               type: Type.INTEGER, 
-              description: "Overall rating on how high-quality and human-sounding the prose is, from 0 (terrible slop) to 100 (polished work of art)." 
+              description: "SLOP INDEX. Measures the amount of AI writing fingerprints. 0 to 20 = Genuinely Human (low slop index). 21 to 50 = Mostly Human (some AI smooth patterns). 51 to 75 = AI Fingerprints (noticeable AI patterns). 76 to 100 = AI Generated (unmistakably AI, heavy slop). Apply penalties by adding to the score: +8 per structural pattern found, +5 per classic slop marker, +15 if protagonist is calm/correct, +12 for repeating paragraph rhythms, +6 per cinematic AI vocab word." 
             },
             scores: {
               type: Type.OBJECT,
               properties: {
-                purpleProse: { type: Type.INTEGER, description: "Score for purple prose. 100 = descriptive but active/clean, 0 = saturated with cheesy adjectives." },
-                adverbDensity: { type: Type.INTEGER, description: "Score for adverb usage. 100 = strong verbs, 0 = flooded with -ly adverbs." },
-                dialogueQuality: { type: Type.INTEGER, description: "Score for dialogue naturalness and pacing. 100 = organic and interesting, 0 = flat or infodump dialogues." },
-                pacing: { type: Type.INTEGER, description: "Score for text speed and rhythm. 100 = smooth pacing, 0 = dragging scenes or rushed climax." },
-                clicheCount: { type: Type.INTEGER, description: "Score for avoiding cliches and trope over-indulgence. 100 = distinctive and engaging, 0 = carbon-copy tropes." },
-                showVsTell: { type: Type.INTEGER, description: "Score for showing instead of telling. 100 = active immersive scenes, 0 = pure exposition narration." }
+                purpleProse: { type: Type.INTEGER, description: "Score for purple prose. 0 = clean active narration, 100 = saturated with flowery descriptions. Higher is worse." },
+                adverbDensity: { type: Type.INTEGER, description: "Score for adverb usage. 0 = strong active verbs, 100 = flooded with adverbs. Higher is worse." },
+                dialogueQuality: { type: Type.INTEGER, description: "Legacy dialogue quality score. 0 = organic, 100 = flat. Higher is worse." },
+                pacing: { type: Type.INTEGER, description: "Legacy pacing score. 0 = dynamic, 100 = dragging. Higher is worse." },
+                clicheCount: { type: Type.INTEGER, description: "Legacy cliché count score. 0 = unique, 100 = full of clichés. Higher is worse." },
+                showVsTell: { type: Type.INTEGER, description: "Score for showing instead of telling. 0 = active immersive, 100 = pure exposition narration. Higher is worse." },
+                verbosityAndFiller: { type: Type.INTEGER, description: "Score for verbosity and filler. 0 = concise, 100 = bloated. Higher is worse." },
+                negationPatterns: { type: Type.INTEGER, description: "Score for negation contrast patterns ('not X, but Y'). 0 = none, 100 = heavy usage. Higher is worse." },
+                dialogueFormulaic: { type: Type.INTEGER, description: "Score for formulaic/predictable dialogue tag rhythms. 0 = natural variation, 100 = highly formulaic. Higher is worse." },
+                clicheIntensity: { type: Type.INTEGER, description: "Score for banned intensity words. 0 = none, 100 = high count. Higher is worse." },
+                propOverdescription: { type: Type.INTEGER, description: "Score for over-describing minor background props. 0 = none, 100 = high count. Higher is worse." },
+                pacingIssues: { type: Type.INTEGER, description: "Score for structural pacing issues (choppy staccato vs dense walls). 0 = none, 100 = severe. Higher is worse." }
               },
-              required: ["purpleProse", "adverbDensity", "dialogueQuality", "pacing", "clicheCount", "showVsTell"]
+              required: [
+                "purpleProse", "adverbDensity", "dialogueQuality", "pacing", "clicheCount", "showVsTell", 
+                "verbosityAndFiller", "negationPatterns", "dialogueFormulaic", "clicheIntensity", "propOverdescription", "pacingIssues"
+              ]
             },
             issues: {
               type: Type.ARRAY,
@@ -351,7 +326,7 @@ You must return a highly accurate JSON response matching the requested schema. E
                 properties: {
                   category: { 
                     type: Type.STRING, 
-                    description: "One of: PurpleProse, Adverb, Dialogue, Pacing, Cliché, ShowVsTell" 
+                    description: "One of: PurpleProse, Adverb, Dialogue, Pacing, Cliché, ShowVsTell, StructurePattern, CinematicVocab, HeroTemplate, WordRepetition, ImpactTemplate, VerbosityFiller" 
                   },
                   severity: { 
                     type: Type.STRING, 
@@ -410,22 +385,8 @@ app.post("/api/analyze-vocab", async (req, res) => {
 
   try {
     const ai = getAIForRequest(req);
-      const vocabPrompt = `You are a professional editor specializing in purifying webnovel manuscripts for readability, simplicity, and tone cohesion.
-Analyze the following raw webnovel chapter content for words and phrases that are:
-- Too academic (e.g. "coruscating", "conflagration", "pulchritudinous", "nexus", "visage").
-- Too formal, stiff, or rigid ("kaku") for casual reading (e.g. using Indonesian formal connectives in high-energy scenes, or overly clinical descriptions).
-- Overly dramatic or theatrical (e.g. using "throat" when "neck" is much simpler/natural, or writing "skewered his abdomen" when "stabbed him" works perfectly).
-- Pretentious terms or AI slop words that normal people do not use spontaneously.
-
-Your goal is to keep the language down-to-earth, natural, simple, cohesive, and easy to understand.
-For every issue found, identify the specific stiff word/phrase, provide a plain explanation, and propose EXACTLY ONE simpler, grounded, everyday Indonesian or English alternative (matching the source language). Avoid providing multiple options; give only the single most suitable direct replacement. Keep the suggestions array filled with exactly 1 string element.
-
-Ensure that "originalText" matches EXACTLY a physical substring within the content (down to capitalization, quotes, and spacing) so the UI can highlight and replace it cleanly.
-
-Raw Content:
-"""
-${content}
-"""`;
+    // Utilize the prompt builder function imported from ai-prompts.ts
+    const vocabPrompt = buildVocabAnalysisPrompt(content);
 
     const systemInstruction = `You are a high-end webnovel prose editor. Your single purpose is to identify overly formal, academic, stiff ("kaku"), or overly dramatic/theatrical vocabulary in the prose, and suggest simple, conversational, grounded everyday alternatives.
 Return a very precise JSON response matching the requested schema. Ensure that "originalText" matches a physical substring from the manuscript EXACTLY.`;
@@ -503,12 +464,16 @@ app.post("/api/polish", async (req, res) => {
 
   try {
     const ai = getAIForRequest(req);
+    // Utilize the prompt builder function imported from ai-prompts.ts
+    const polishPrompt = buildPolishPassagePrompt(
+      text,
+      instruction || "Improve pacing, remove purple prose, and activate verbs.",
+      contextStyle || "General Action Fantasy"
+    );
+
     const response = await generateContentWithFallback(ai, {
       model: "gemini-3.5-flash",
-      contents: `Improve the style of this webnovel passage according to these instructions:
-Passage to rewrite: "${text}"
-Instruction: "${instruction || "Improve pacing, remove purple prose, and activate verbs."}"
-Context/Tone style to apply: "${contextStyle || "General Action Fantasy"}"`,
+      contents: polishPrompt,
       config: {
         systemInstruction: "You are a master line editor. Rewrite the provided text as requested. Return ONLY the new rewritten passage, with no introductory text, no conversational fillers, and no quotation marks around the final result. Keep the changes concise and tailored.",
         temperature: 0.7,
@@ -573,7 +538,8 @@ STRICT ANTI-SLOP STRUCTURAL RULES (CRITICAL PROMPT DIRECTIVES):
 3. Underpinning Ground Truth: Strictly respect the novel's main story premise/synopsis. Integrate character goals, constraints, and limitations rather than giving them easy solutions.
 4. No Shadow-Larping Dialogue Clichés: Avoid circular, vague dialogue and repetitive pacing structures. All characters must speak with clear, distinct intentions and logical motivation.
 5. High Contrast Tension Levels: Vary absolute tension elements (e.g., Chapter 1: Medium, Chapter 2: High, Chapter 3: Low-Pressure, Chapter 4: High-Action, Chapter 5: Climax).
-6. Strictly map the provided Character IDs and Location IDs in your output where appropriate so they align with the local database structure.`;
+6. Strictly map the provided Character IDs and Location IDs in your output where appropriate so they align with the local database structure.
+7. Cliffhangers & Hooks: Every chapter outline must be planned to start with a high-impact hook beat (action, dialogue, or reaction, avoiding slow summaries) and end with a compelling cliffhanger beat that leaves critical stakes unresolved to make opening the next chapter irresistible.`;
 
     const response = await generateContentWithFallback(ai, {
       model: "gemini-3.5-flash",
@@ -745,7 +711,7 @@ Premise/Synopsis: "${synopsis || "No synopsis available."}"\n`;
           properties: {
             name: { type: Type.STRING, description: "Authentic, high-concept setting or zone name." },
             description: { type: Type.STRING, description: "Vivid description of its geography, physical layouts, structures, and mystical elements." },
-            atmosphere: { type: Type.STRING, description: "Sensory atmospheric details (e.g., light quality, winds, smell, environmental essence)." },
+            atmosphere: { type: Type.STRING, description: "Visual and tactile atmosphere only (e.g., light quality, wind intensity, ambient temperature). STRICTLY FORBID smell or fragrance descriptions." },
             notableFeatures: { type: Type.ARRAY, items: { type: Type.STRING }, description: "3 or 4 points of interest, dangerous local anomalies, structures, or landmarks here." },
             tags: { type: Type.ARRAY, items: { type: Type.STRING }, description: "3 to 4 single-word environment tags (e.g., 'Underground', 'Dungeon', 'Holy', 'Frozen')." }
           },

@@ -1,6 +1,69 @@
 // src/config/ai-prompts.ts
 
 import { Chapter, Character, Location } from "../types";
+import {
+  getCinematicVocabString,
+  getBannedIntensityString,
+  getStockImpactString,
+  getEnergyWordClusterString,
+  getScoringPenaltyBlock,
+  ENERGY_WORD_MAX_PER_CHAPTER,
+  SUGGESTION_QUALITY_RULES,
+  STRUCTURAL_PATTERN_RULES,
+  ABSOLUTE_BANNED_WORDS,
+} from "./ai-slop-database";
+
+// ─────────────────────────────────────────────
+// GEMINI HARD STOP BLOCK
+// Letakkan ini PERTAMA di setiap system prompt.
+// ─────────────────────────────────────────────
+export const GEMINI_HARD_STOPS = `
+╔══════════════════════════════════════════════════════╗
+║  HARD STOP — THESE RULES OVERRIDE EVERYTHING ELSE  ║
+║  Violating ANY of these = output is invalid.        ║
+╚══════════════════════════════════════════════════════╝
+
+[STOP-1] NEVER open a chapter or scene with weather, atmosphere, landscape, or mood-setting.
+  ❌ "Rain swept across the city..."
+  ❌ "Silence blanketed the room..."
+  ❌ "Cahaya redup menyapu lantai beton..."
+  ✅ Start with action, dialogue, or a character’s immediate reaction. Always.
+
+[STOP-2] NEVER use negation framing.
+  ❌ "That wasn’t just fear. It was something deeper."
+  ❌ "Bukan sekadar ancaman. Itu perintah."
+  ❌ "It wasn’t a request. It was a command."
+  ✅ Write the actual thing directly. Skip the "not X" setup entirely.
+
+[STOP-3] NEVER chop continuous actions into separate staccato sentences, but NEVER write grammatically incorrect fragments or leave verbs/participles dangling at the end of a sentence.
+  ❌ "He stood up. He dusted his knees. He looked at her."
+  ❌ "He landed a blow directly into the Stalker’s chest. slid." (dangling verb)
+  ❌ "Ryan watched his display as the meter climbed back into the green. draining" (fragmented participle)
+  ✅ "He stood, dusted his knees, and looked at her." (natural flow)
+  ✅ "He landed a blow directly into the Stalker’s chest, sliding back as the impact resonated." (complete clause)
+  ✅ "Ryan watched his display as the meter climbed back into the green, draining the cell." (complete clause)
+  Rule: Ensure every sentence has a complete subject and predicate. Never separate verbs or action results into incomplete, fragmented sentences.
+
+[STOP-4] NEVER use these banned intensity, cinematic, or buzz words (hard ban, no exceptions):
+  Banned Intensity: ${getBannedIntensityString()}
+  Banned Cinematic: ${getCinematicVocabString()}
+  Absolute Banned: ${ABSOLUTE_BANNED_WORDS.map(w => `"${w}"`).join(", ")}
+
+[STOP-5] NEVER describe smells, scents, fragrance, or odors. Not once.
+
+[STOP-6] NEVER over-describe background props. Minor objects = zero adjectives.
+  ❌ "the rusted hydraulic door" / "weathered concrete walls" / "dim flickering corridor"
+  ✅ "the door" / "concrete walls" / "the corridor"
+
+[STOP-7] NEVER be verbose or pad with filler. If a sentence doesn’t advance plot, character, or tension — cut it.
+  ❌ Extended atmospheric paragraphs that go nowhere
+  ❌ Restating what the character already knows to fill space
+  ❌ Over-explaining emotions the action already shows
+
+[STOP-8] NEVER use stock physical impact/injury safety template phrases:
+  ${getStockImpactString()}
+  Replace with specific body part sensations and physical gear actions.
+`;
 
 // ─────────────────────────────────────────────
 // SYSTEM: Base prose rules yang selalu dipakai
@@ -33,10 +96,12 @@ These are the clearest signal that prose is AI-generated. Any instance = immedia
   ✅ Open with action, dialogue, or immediate reaction. Weave setting in later.
 
 ▸ BANNED INTENSITY WORDS (always sound theatrical, never earned):
-  palpable / piercing / ethereal / visceral / electrifying / haunting / suffocating
-  "heavy silence" / "oppressive air" / "shiver ran down his spine"
-  "heart hammered" / "eyes widened" / "breath caught in his throat"
+  ${getBannedIntensityString()}
+  "heavy silence" / "oppressive air"
   Use these ONLY if the scene genuinely earns extreme physical shock — and only once per chapter maximum.
+
+▸ BANNED CINEMATIC/SCI-FI VOCAB: Never use these as atmospheric shorthand — replace with specific physical detail:
+  ${getCinematicVocabString()}
 
 ▸ BANNED WORD: "ozone" — never use this word in any context.
 
@@ -44,16 +109,18 @@ These are the clearest signal that prose is AI-generated. Any instance = immedia
   Never describe smells, odors, scents, fragrance, or olfactory atmosphere. Not once.
 
 ────────────────────────────────────────────────────────
-[P0-B] SENTENCE FLOW — NO ROBOTIC STACCATO
+[P0-B] SENTENCE FLOW — NO ROBOTIC STACCATO OR FRAGMENTS
 ────────────────────────────────────────────────────────
-Continuous actions and related gestures MUST flow as one sentence. Do not chop them into robotic mini-sentences.
+Continuous actions and related gestures should flow naturally. Avoid choppy staccato sentences, but NEVER generate awkward grammatical fragments, dangling verbs, or isolated participles at the end of a sentence.
 
   ❌ "He stood up. He brushed dust off his knees. He looked up."
-  ❌ "She exhaled. She reached for the door. She stopped."
+  ❌ "He landed a blow directly into the chest, the impact resonating. slid."
+  ❌ "The meter climbed back into the green. draining"
   ✅ "He stood, brushed dust off his knees, and looked up."
-  ✅ "She exhaled, reached for the door, then stopped."
+  ✅ "He landed a blow directly into the chest, the impact resonating as he slid back."
+  ✅ "The meter climbed back into the green, draining the final reserves."
 
-This is the single biggest reason prose sounds robotic. Enforce this every paragraph.
+Ensure every sentence is a fully formed grammatical clause with proper subject-verb agreement and punctuation. Never let isolated verbs or participles dangle as independent sentences.
 
 ────────────────────────────────────────────────────────
 [P1-A] DIALOGUE — NATURAL DENSITY & VOICE
@@ -112,6 +179,41 @@ To reach word count targets WITHOUT resorting to scenery decoration or purple pr
 Never pad with ambient description, weather, or atmosphere to hit word count.
 
 ────────────────────────────────────────────────────────
+[P1-E] FIGHT/ACTION PACING — MANDATORY
+────────────────────────────────────────────────────────
+Action dan fight scenes harus PENDEK dan SNAPPY. Reader mobile skip fight panjang.
+
+STRUKTUR YANG BENAR:
+  Setup/tension    → boleh panjang, bangun stakes
+  Fight/action     → singkat, langsung ke dampak
+  Aftermath/reaksi → boleh panjang, reader ngerasain beratnya
+
+RULES:
+▸ Satu exchange = maksimal 2 kalimat. Langsung ke hasil, skip detail teknis.
+▸ Jangan deskripsiin setiap gerakan. Tulis DAMPAK-nya, bukan prosesnya.
+▸ Kalau karakter kena pukul — tulis apa yang dia rasain, bukan kronologi pukulannya.
+▸ Internal monologue di tengah fight = boleh, tapi max 1 kalimat per beat.
+
+❌ "Ia melangkah ke kanan, menghindari tebasan. Kakinya menapak di lantai. Ia memutar badan, kalkulasi sudut. Tangannya terangkat memblok pukulan kedua."
+✅ "Dua tebasan dia dodge, yang ketiga diblok — lengannya mati rasa sampai siku."
+
+❌ "He calculated the angle of attack, shifted his weight to his left foot, and drove his elbow upward into the opponent's jaw."
+✅ "He drove his elbow up. Bone met bone. The guy dropped."
+
+Note: Reader mobile scroll cepet. Fight scene yang panjang dan detail justru bikin mereka skip. Yang bikin nagih itu hasil dan stakes, bukan deskripsi teknis tiap pukulan.
+
+────────────────────────────────────────────────────────
+[P1-F] CHAPTER STRUCTURE — HOOKS & CLIFFHANGERS
+────────────────────────────────────────────────────────
+▸ HOOK DI KALIMAT PERTAMA: Kalimat pertama dari tiap chapter/scene harus berupa hook langsung (aksi, dialog, atau reaksi instan). Sama sekali tidak boleh ada pemanasan (warmup), deskripsi cuaca/suasana, atau penjelasan latar belakang di kalimat-kalimat pembuka.
+▸ CLIFFHANGER DI AKHIR: Paragraf terakhir dari tiap chapter harus berakhir dengan cliffhanger yang tajam — ancaman yang mendekat, pertanyaan penting yang belum terjawab, atau keputusan taktis darurat yang diambil di tengah ketegangan. Reader harus merasa harus membuka chapter berikutnya saat itu juga.
+
+────────────────────────────────────────────────────────
+[P1-G] ENERGY/POWER WORD ROTATION
+────────────────────────────────────────────────────────
+▸ Energy/power theme words (${getEnergyWordClusterString()}) — max ${ENERGY_WORD_MAX_PER_CHAPTER} appearances total each per chapter block (~1500 words). After the ${ENERGY_WORD_MAX_PER_CHAPTER}rd use, SWITCH to a different word or restructure the sentence to avoid it.
+
+────────────────────────────────────────────────────────
 [P2-A] VOCABULARY — SIMPLE, DIRECT, MODERN
 ────────────────────────────────────────────────────────
 ▸ Prefer the simpler word. "red" over "crimson" unless crimson is specifically right. "dark" over "shadow-drenched."
@@ -136,6 +238,10 @@ PRE-WRITE MENTAL CHECKLIST (run before generating each paragraph):
   [ ] Minor props described without adjectives?
   [ ] Dialogue uses natural particles/contractions?
   [ ] Paragraph is 1–3 sentences max?
+  [ ] No cinematic sci-fi vocab (${getCinematicVocabString().split(", ").slice(0,4).join(", ")}...)?
+  [ ] Energy/power words used < ${ENERGY_WORD_MAX_PER_CHAPTER}x each (${getEnergyWordClusterString()})?
+  [ ] Protagonist has at least one moment of imperfection/miscalculation?
+  [ ] No stock impact phrases (${getStockImpactString().split(", ").slice(0,2).join(", ")}...)?
 ════════════════════════════════════════════════════════`;
 
 // ─────────────────────────────────────────────
@@ -148,7 +254,6 @@ interface ChapterPromptParams {
   precedingChapters: Chapter[];
   wordCountTarget: number;
   toneAdjustment: string;
-  activePreset: string;
   customInst: string;
   projectRules: string[];
   mimicStyleText: string;
@@ -162,7 +267,6 @@ export function buildChapterGenerationPrompt(params: ChapterPromptParams): strin
     precedingChapters,
     wordCountTarget,
     toneAdjustment,
-    activePreset,
     customInst,
     projectRules,
     mimicStyleText,
@@ -360,6 +464,34 @@ RETURN THIS EXACT JSON STRUCTURE
     }
   ]
 }
+
+════════════════════════════════════════════════════════
+SCORING CALIBRATION — SLOP INDEX (Lower is Better)
+════════════════════════════════════════════════════════
+overallScore measures the SLOP INDEX (amount of AI writing fingerprints), NOT literary quality.
+0 to 20 = Genuinely Human (very low slop index, minor imperfections, natural variety)
+21 to 50 = Mostly Human (some minor AI smooth patterns, easily fixable)
+51 to 75 = AI Fingerprints (noticeable AI patterns, predictable structural formulas)
+76 to 100 = AI Generated (unmistakably AI-generated, heavy slop)
+
+Do NOT give a low slop score (e.g. under 20) to text just because it is grammatically correct and clean. AI text is always clean. Real human writing is imperfect, spontaneous, and non-formulaic.
+
+${getScoringPenaltyBlock()}
+
+${SUGGESTION_QUALITY_RULES}
+
+════════════════════════════════════════════════════════
+EXTRA PATTERN RULES
+════════════════════════════════════════════════════════
+${STRUCTURAL_PATTERN_RULES.showVsTellGuard}
+
+${STRUCTURAL_PATTERN_RULES.heroTemplate}
+
+${STRUCTURAL_PATTERN_RULES.predictableSentenceStructure}
+
+BANNED CINEMATIC VOCAB IN THIS ANALYSIS: ${getCinematicVocabString()}
+BANNED STOCK IMPACT PHRASES: ${getStockImpactString()}
+ENERGY CLUSTER (max ${ENERGY_WORD_MAX_PER_CHAPTER}x each): ${getEnergyWordClusterString()}
 
 ════════════════════════════════════════════════════════
 ANALYSIS RULES
