@@ -68,6 +68,10 @@ export const GEMINI_HARD_STOPS = `
   If it can be deleted without changing the scene → delete it.
   ❌ "metal flooring" / "littered corridor" / "concrete walls"
   ✅ Only describe what the character touches, trips on, hides behind, or gets hit by.
+
+[STOP-10] NEVER write a clean win. Every victory must have a visible cost or an immediate new problem.
+  ❌ "I walked into the dark, ready for whatever came next."
+  ✅ Protagonist limping, resource depleted, or new threat already emerging.
 `;
 
 // ─────────────────────────────────────────────

@@ -539,7 +539,11 @@ STRICT ANTI-SLOP STRUCTURAL RULES (CRITICAL PROMPT DIRECTIVES):
 4. No Shadow-Larping Dialogue Clichés: Avoid circular, vague dialogue and repetitive pacing structures. All characters must speak with clear, distinct intentions and logical motivation.
 5. High Contrast Tension Levels: Vary absolute tension elements (e.g., Chapter 1: Medium, Chapter 2: High, Chapter 3: Low-Pressure, Chapter 4: High-Action, Chapter 5: Climax).
 6. Strictly map the provided Character IDs and Location IDs in your output where appropriate so they align with the local database structure.
-7. Cliffhangers & Hooks: Every chapter outline must be planned to start with a high-impact hook beat (action, dialogue, or reaction, avoiding slow summaries) and end with a compelling cliffhanger beat that leaves critical stakes unresolved to make opening the next chapter irresistible.`;
+7. Cliffhangers & Hooks: Every chapter outline must be planned to start with a high-impact hook beat (action, dialogue, or reaction, avoiding slow summaries) and end with a compelling cliffhanger beat that leaves critical stakes unresolved to make opening the next chapter irresistible.
+8. [BEAT RULE] Every climax beat (beats marked with tension "Climax") MUST include one of:
+   - A physical cost (gear damaged, physical injury, or resources fully depleted)
+   - A wrong first instinct that fails dramatically before the correct move is made
+   - An unresolved problem that survives the victory;`;
 
     const response = await generateContentWithFallback(ai, {
       model: "gemini-3.5-flash",
