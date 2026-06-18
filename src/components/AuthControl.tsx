@@ -76,15 +76,6 @@ export function AuthControl({ onRefreshAllData, onSelectProjectId }: AuthControl
 
       // 3. Trigger parent to refresh state
       onRefreshAllData();
-      
-      // Select first project after reload
-      const localProjectsStr = localStorage.getItem("novelforge_projects");
-      if (localProjectsStr) {
-        const list = JSON.parse(localProjectsStr);
-        if (list.length > 0) {
-          onSelectProjectId(list[0].id);
-        }
-      }
 
       setSyncStatus("synced");
     } catch (err: any) {

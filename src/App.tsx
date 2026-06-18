@@ -93,9 +93,14 @@ export default function App() {
     const list = dbStore.getProjects();
     setProjects(list);
 
-    // Default to first active project if none selected
-    if (list.length > 0 && !selectedProjectId) {
-      setSelectedProjectId(list[0].id);
+    // Default to first active project if none selected, or if selected project no longer exists
+    if (list.length > 0) {
+      const exists = list.some(p => p.id === selectedProjectId);
+      if (!selectedProjectId || !exists) {
+        setSelectedProjectId(list[0].id);
+      }
+    } else {
+      setSelectedProjectId(null);
     }
   };
 
