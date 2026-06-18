@@ -225,6 +225,9 @@ interface ChapterPromptParams {
   customInst: string;
   projectRules: string[];
   mimicStyleText: string;
+  synopsis: string;
+  allCharacters: Character[];
+  allLocations: Location[];
 }
 
 export function buildChapterGenerationPrompt(params: ChapterPromptParams): string {
@@ -238,6 +241,9 @@ export function buildChapterGenerationPrompt(params: ChapterPromptParams): strin
     customInst,
     projectRules,
     mimicStyleText,
+    synopsis,
+    allCharacters,
+    allLocations,
   } = params;
 
   const beatsStr = chapter.beats?.length
@@ -275,6 +281,14 @@ ${mimicStyleText.trim()}
 """`
     : "";
 
+  const bibleCastStr = allCharacters.length
+    ? allCharacters.map(c => `- ${c.name}${c.aliases?.length ? ` (Aliases: ${c.aliases.join(", ")})` : ""}: Age ${c.age || "unknown"}, ${c.gender || "unknown"}. Appearance: ${c.appearance}. Personality: ${c.personality}. Goal/Arc: ${c.arcGoal}`).join("\n")
+    : "- No characters registered in the Story Bible.";
+
+  const bibleLocationsStr = allLocations.length
+    ? allLocations.map(l => `- ${l.name}: Atmosphere: ${l.atmosphere}. Description: ${l.description}`).join("\n")
+    : "- No locations registered in the Story Bible.";
+
   return `TASK: Write Chapter ${chapter.chapterNumber} of the manuscript.
 Title Goal: "${chapter.title}"
 Target Length: ~${wordCountTarget} words
@@ -291,15 +305,27 @@ ${customRulesStr}
 ${mimicStr}
 
 ════════════════════════════════════════════════════════
-STEP 2 — CHAPTER CONTEXT
+STEP 2 — WORLD BIBLE & STORY CONTEXT
+════════════════════════════════════════════════════════
+PROJECT SYNOPSIS:
+${synopsis || "No synopsis configured."}
+
+FULL CAST INDEX (Maintain strict names/roles; do NOT invent characters outside this list unless necessary):
+${bibleCastStr}
+
+FULL LOCATIONS INDEX (Maintain setting/geography consistency; do NOT invent locations outside this list unless necessary):
+${bibleLocationsStr}
+
+════════════════════════════════════════════════════════
+STEP 3 — CHAPTER-SPECIFIC CONTEXT
 ════════════════════════════════════════════════════════
 PLOT BEATS (write every beat fully — no skipping, no summarizing):
 ${beatsStr}
 
-LOCATION:
+PRIMARY LOCATION FOR THIS SCENE:
 ${locationStr}
 
-ACTIVE CHARACTERS:
+ACTIVE CHARACTERS IN THIS SCENE:
 ${charsStr}
 
 CHAPTER HISTORY:
@@ -309,7 +335,7 @@ WRITER MEMO:
 ${customInst || "Write with focused visual logic and dry tactical dialogue."}
 
 ════════════════════════════════════════════════════════
-STEP 3 — SELF-CHECK BEFORE FIRST WORD
+STEP 4 — SELF-CHECK BEFORE FIRST WORD
 ════════════════════════════════════════════════════════
 Confirm before writing:
   ✓ First sentence = action or dialogue (NOT weather/atmosphere)
@@ -335,7 +361,8 @@ export function buildChapterSystemInstruction(
   chapterNumber: number,
   toneAdjustment: string,
   projectRules: string[],
-  mimicStyleText: string
+  mimicStyleText: string,
+  synopsis?: string
 ): string {
   const customProjectRulesStr = projectRules.length > 0
     ? `\n\n────────────────────────────────────────────────────────\nCUSTOM DIRECTIVES — [P0] MANDATORY\n────────────────────────────────────────────────────────\n` +
@@ -355,7 +382,11 @@ ${mimicStyleText.trim()}
 """`
     : "";
 
-  return `You are an elite webnovel writer. Your task: write the FULL, detailed narrative of Chapter ${chapterNumber}.
+  const synopsisStr = synopsis
+    ? `\n\n════════════════════════════════════════════════════════\nSTORY PREMISE\n════════════════════════════════════════════════════════\n${synopsis}`
+    : "";
+
+  return `You are an elite webnovel writer. Your task: write the FULL, detailed narrative of Chapter ${chapterNumber}.${synopsisStr}
 
 CRITICAL: Do NOT summarize, outline, or skip scenes. Write fully immersive narrative prose at target length. Every beat must be fully written out.
 

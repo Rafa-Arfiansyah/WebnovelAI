@@ -94,6 +94,8 @@ export default function ChapterGenerator({
       .sort((a,b) => b.chapterNumber - a.chapterNumber) // descending
       .slice(0, 2);
 
+    const project = dbStore.getProjects().find(p => p.id === projectId);
+
     return buildChapterGenerationPrompt({
       chapter: {
         ...activeChapter,
@@ -105,8 +107,11 @@ export default function ChapterGenerator({
       wordCountTarget,
       toneAdjustment,
       customInst,
-      projectRules: dbStore.getProjects().find(p => p.id === projectId)?.antiSlopRules || [],
-      mimicStyleText
+      projectRules: project?.antiSlopRules || [],
+      mimicStyleText,
+      synopsis: project?.synopsis || "",
+      allCharacters: characters,
+      allLocations: locations
     });
   };
 
@@ -123,7 +128,8 @@ export default function ChapterGenerator({
       activeChapter.chapterNumber,
       toneAdjustment,
       rawRules,
-      mimicStyleText
+      mimicStyleText,
+      project?.synopsis || ""
     );
 
     const promptText = compileFinalPrompt();
