@@ -15,7 +15,7 @@ import {
   Plus, BookOpen, Clock, BarChart2, ShieldAlert, Archive, 
   Trash2, Layers, Sparkles, Edit, Settings, Users, ArrowRightLeft, 
   ShieldCheck, HelpCircle, FileText, LayoutDashboard, Terminal,
-  Sun, Moon, Menu, X
+  Sun, Moon, Menu, X, Wifi, WifiOff
 } from "lucide-react";
 
 export default function App() {
@@ -43,6 +43,21 @@ export default function App() {
   const [isLightMode, setIsLightMode] = useState<boolean>(() => {
     return localStorage.getItem("novel-forge-theme") === "light";
   });
+
+  const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== "undefined" ? navigator.onLine : true);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   useEffect(() => {
     if (isLightMode) {
@@ -326,6 +341,29 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-4">
+            {/* Network Status Badge */}
+            <div 
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-[10px] font-mono font-bold uppercase tracking-wider bg-[#121212] transition-all duration-300 ${
+                isOnline 
+                  ? "border-[#00FF88]/25 text-[#00FF88]" 
+                  : "border-amber-500/25 text-amber-500 animate-pulse"
+              }`}
+              title={isOnline ? "Koneksi Cloud Aktif" : "Mode Offline (Penyimpanan Lokal Aktif)"}
+              id="header-network-status"
+            >
+              {isOnline ? (
+                <>
+                  <Wifi size={12} className="text-[#00FF88]" />
+                  <span>Online</span>
+                </>
+              ) : (
+                <>
+                  <WifiOff size={12} className="text-amber-500" />
+                  <span>Offline</span>
+                </>
+              )}
+            </div>
+
             {/* Theme Toggle Button */}
             <button
               onClick={() => setIsLightMode(!isLightMode)}
